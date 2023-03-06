@@ -1,4 +1,20 @@
 <app-header title="Post List"></app-header>
 <ion-content>
-Aqui esta la info del Post
+    <ion-grid>
+        <ion-row>
+          <ion-col><ion-searchbar [(ngModel)]="search" animated></ion-searchbar></ion-col>          
+        </ion-row>
+      </ion-grid>
+    <div class="wrapper-grid">
+        <!-- movies persisted on the backend -->
+        <div class="wrapper-movie">
+          <ion-button (click)="createPost()">New Post</ion-button>
+            <app-post-card
+                *ngFor="let post of posts$ | filterAuthor:search"
+                [postInfo]="post"                
+            >
+                      
+          </app-post-card>
+        </div>
+        </div>
 </ion-content>

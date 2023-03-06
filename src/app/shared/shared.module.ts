@@ -6,17 +6,18 @@ import { CommonModule } from '@angular/common';
 import { HeaderComponent } from './components/header/header.component';
 
 import { FormsModule } from '@angular/forms';
+import { FilterAuthorPipe } from './pipes/filter-author.pipe';
 
 
 
 @NgModule({
-  declarations: [HeaderComponent],
+  declarations: [HeaderComponent, FilterAuthorPipe],
   imports: [
     CommonModule,
     FormsModule,
     IonicModule,
     RouterModule
   ],
-  exports:[HeaderComponent]
+  exports:[HeaderComponent, FilterAuthorPipe]
 })
 export class SharedModule { }

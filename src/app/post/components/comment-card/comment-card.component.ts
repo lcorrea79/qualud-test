@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
+import { Maybe } from 'src/app/graphql/generated';
 
 @Component({
   selector: 'app-comment-card',
@@ -7,6 +8,7 @@ import { Component, OnInit } from '@angular/core';
 })
 export class CommentCardComponent  implements OnInit {
 
+  @Input() commentInfo!: any;
   constructor() { }
 
   ngOnInit() {}

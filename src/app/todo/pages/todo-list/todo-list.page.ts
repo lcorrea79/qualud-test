@@ -1,3 +1,5 @@
+import { Todo } from './../../../graphql/generated';
+import { TodoService } from './../../services/todo.service';
 import { Component, OnInit } from '@angular/core';
 
 @Component({
@@ -7,9 +9,17 @@ import { Component, OnInit } from '@angular/core';
 })
 export class TodoListPage implements OnInit {
 
-  constructor() { }
+  todos$! : Todo[] | undefined;
+
+  constructor(private todoService: TodoService) { }
 
   ngOnInit() {
+    this.todoService.getAllTodos().subscribe(
+      data => {
+        this.todos$ = data.nodes;
+        console.log(data);
+      }
+    );
   }
 
 }

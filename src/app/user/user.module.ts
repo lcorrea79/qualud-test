@@ -10,7 +10,7 @@ import { UserRoutingModule } from './user-routing.module';
 
 
 @NgModule({
-  declarations: [UserListPage,UserCardComponent
+  declarations: [ UserListPage,UserCardComponent
   ],
   imports: [
     UserRoutingModule,

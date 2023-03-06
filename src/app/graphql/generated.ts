@@ -1,0 +1,539 @@
+import { gql } from 'apollo-angular';
+export type Maybe<T> = T | null;
+export type InputMaybe<T> = Maybe<T>;
+export type Exact<T extends { [key: string]: unknown }> = { [K in keyof T]: T[K] };
+export type MakeOptional<T, K extends keyof T> = Omit<T, K> & { [SubKey in K]?: Maybe<T[SubKey]> };
+export type MakeMaybe<T, K extends keyof T> = Omit<T, K> & { [SubKey in K]: Maybe<T[SubKey]> };
+/** All built-in and custom scalars, mapped to their actual values */
+export type Scalars = {
+  ID: string;
+  String: string;
+  Boolean: boolean;
+  Int: number;
+  Float: number;
+  /** An ISO 8601-encoded datetime */
+  ISO8601DateTime: any;
+};
+
+export type Mutation = {
+  __typename?: 'Mutation';
+  createComment?: Maybe<CreateCommentPayload>;
+  createPost?: Maybe<CreatePostPayload>;
+  createTodo?: Maybe<CreateTodoPayload>;
+  createUser?: Maybe<CreateUserPayload>;
+  deleteComment?: Maybe<DeleteCommentPayload>;
+  deletePost?: Maybe<DeletePostPayload>;
+  deleteTodo?: Maybe<DeleteTodoPayload>;
+  deleteUser?: Maybe<DeleteUserPayload>;
+  updateComment?: Maybe<UpdateCommentPayload>;
+  updatePost?: Maybe<UpdatePostPayload>;
+  updateTodo?: Maybe<UpdateTodoPayload>;
+  updateUser?: Maybe<UpdateUserPayload>;
+};
+
+
+export type MutationCreateCommentArgs = {
+  input: CreateCommentInput;
+};
+
+
+export type MutationCreatePostArgs = {
+  input: CreatePostInput;
+};
+
+
+export type MutationCreateTodoArgs = {
+  input: CreateTodoInput;
+};
+
+
+export type MutationCreateUserArgs = {
+  input: CreateUserInput;
+};
+
+
+export type MutationDeleteCommentArgs = {
+  input: DeleteCommentInput;
+};
+
+
+export type MutationDeletePostArgs = {
+  input: DeletePostInput;
+};
+
+
+export type MutationDeleteTodoArgs = {
+  input: DeleteTodoInput;
+};
+
+
+export type MutationDeleteUserArgs = {
+  input: DeleteUserInput;
+};
+
+
+export type MutationUpdateCommentArgs = {
+  input: UpdateCommentInput;
+};
+
+
+export type MutationUpdatePostArgs = {
+  input: UpdatePostInput;
+};
+
+
+export type MutationUpdateTodoArgs = {
+  input: UpdateTodoInput;
+};
+
+
+export type MutationUpdateUserArgs = {
+  input: UpdateUserInput;
+};
+
+/** Information about pagination in a connection. */
+export type PageInfo = {
+  __typename?: 'PageInfo';
+  /** When paginating forwards, the cursor to continue. */
+  endCursor?: Maybe<Scalars['String']>;
+  /** When paginating forwards, are there more items? */
+  hasNextPage: Scalars['Boolean'];
+  /** When paginating backwards, are there more items? */
+  hasPreviousPage: Scalars['Boolean'];
+  /** When paginating backwards, the cursor to continue. */
+  startCursor?: Maybe<Scalars['String']>;   
+};
+
+export type Query = {
+  __typename?: 'Query';
+  /** Find a comment by ID */
+  comment?: Maybe<Comment>;
+  /** List of comments */
+  comments: CommentConnection;
+  /** Find a post by ID */
+  post?: Maybe<Post>;
+  /** List of posts */
+  posts: PostConnection;
+  /** Find a todo by ID */
+  todo?: Maybe<Todo>;
+  /** List of todos */
+  todos: TodoConnection;
+  /** Find a user by ID */
+  user?: Maybe<User>;
+  /** List of users */
+  users: UserConnection;
+};
+
+
+export type QueryCommentArgs = {
+  id: Scalars['ID'];
+};
+
+
+export type QueryCommentsArgs = {
+  after?: InputMaybe<Scalars['String']>;
+  before?: InputMaybe<Scalars['String']>;
+  first?: InputMaybe<Scalars['Int']>;
+  last?: InputMaybe<Scalars['Int']>;
+};
+
+
+export type QueryPostArgs = {
+  id: Scalars['ID'];
+};
+
+
+export type QueryPostsArgs = {
+  after?: InputMaybe<Scalars['String']>;
+  before?: InputMaybe<Scalars['String']>;
+  first?: InputMaybe<Scalars['Int']>;
+  last?: InputMaybe<Scalars['Int']>;
+};
+
+
+export type QueryTodoArgs = {
+  id: Scalars['ID'];
+};
+
+
+export type QueryTodosArgs = {
+  after?: InputMaybe<Scalars['String']>;
+  before?: InputMaybe<Scalars['String']>;
+  first?: InputMaybe<Scalars['Int']>;
+  last?: InputMaybe<Scalars['Int']>;
+};
+
+
+export type QueryUserArgs = {
+  id: Scalars['ID'];
+};
+
+
+export type QueryUsersArgs = {
+  after?: InputMaybe<Scalars['String']>;
+  before?: InputMaybe<Scalars['String']>;
+  first?: InputMaybe<Scalars['Int']>;
+  last?: InputMaybe<Scalars['Int']>;
+};
+
+export type Comment = {
+  __typename?: 'comment';
+  body?: Maybe<Scalars['String']>;
+  email?: Maybe<Scalars['String']>;
+  id: Scalars['Int'];
+  name?: Maybe<Scalars['String']>;
+  post: Post;
+  postId: Scalars['Int'];
+};
+
+/** The connection type for comment. */
+export type CommentConnection = {
+  __typename?: 'commentConnection';
+  /** A list of edges. */
+  edges?: Maybe<Array<Maybe<CommentEdge>>>;
+  /** A list of nodes. */
+  nodes?: Maybe<Array<Maybe<Comment>>>;
+  /** Information to aid in pagination. */
+  pageInfo: PageInfo;
+  /** Total count of items */
+  totalCount: Scalars['Int'];
+};
+
+/** An edge in a connection. */
+export type CommentEdge = {
+  __typename?: 'commentEdge';
+  /** A cursor for use in pagination. */
+  cursor: Scalars['String'];
+  /** The item at the end of the edge. */
+  node?: Maybe<Comment>;
+};
+
+/** Autogenerated input type of createComment */
+export type CreateCommentInput = {
+  body: Scalars['String'];
+  /** A unique identifier for the client performing the mutation. */
+  clientMutationId?: InputMaybe<Scalars['String']>;
+  email: Scalars['String'];
+  name: Scalars['String'];
+  postId: Scalars['Int'];
+};
+
+/** Autogenerated return type of createComment. */
+export type CreateCommentPayload = {
+  __typename?: 'createCommentPayload';
+  /** A unique identifier for the client performing the mutation. */
+  clientMutationId?: Maybe<Scalars['String']>;
+  comment?: Maybe<Comment>;
+};
+
+/** Autogenerated input type of createPost */
+export type CreatePostInput = {
+  body: Scalars['String'];
+  /** A unique identifier for the client performing the mutation. */
+  clientMutationId?: InputMaybe<Scalars['String']>;
+  title: Scalars['String'];
+  userId: Scalars['Int'];
+};
+
+/** Autogenerated return type of createPost. */
+export type CreatePostPayload = {
+  __typename?: 'createPostPayload';
+  /** A unique identifier for the client performing the mutation. */
+  clientMutationId?: Maybe<Scalars['String']>;
+  post?: Maybe<Post>;
+};
+
+/** Autogenerated input type of createTodo */
+export type CreateTodoInput = {
+  /** A unique identifier for the client performing the mutation. */
+  clientMutationId?: InputMaybe<Scalars['String']>;
+  dueOn: Scalars['ISO8601DateTime'];
+  status: Scalars['String'];
+  title: Scalars['String'];
+  userId: Scalars['Int'];
+};
+
+/** Autogenerated return type of createTodo. */
+export type CreateTodoPayload = {
+  __typename?: 'createTodoPayload';
+  /** A unique identifier for the client performing the mutation. */
+  clientMutationId?: Maybe<Scalars['String']>;
+  todo?: Maybe<Todo>;
+};
+
+/** Autogenerated input type of createUser */
+export type CreateUserInput = {
+  /** A unique identifier for the client performing the mutation. */
+  clientMutationId?: InputMaybe<Scalars['String']>;
+  email: Scalars['String'];
+  gender: Scalars['String'];
+  name: Scalars['String'];
+  status: Scalars['String'];
+};
+
+/** Autogenerated return type of createUser. */
+export type CreateUserPayload = {
+  __typename?: 'createUserPayload';
+  /** A unique identifier for the client performing the mutation. */
+  clientMutationId?: Maybe<Scalars['String']>;
+  user?: Maybe<User>;
+};
+
+/** Autogenerated input type of deleteComment */
+export type DeleteCommentInput = {
+  /** A unique identifier for the client performing the mutation. */
+  clientMutationId?: InputMaybe<Scalars['String']>;
+  id: Scalars['Int'];
+};
+
+/** Autogenerated return type of deleteComment. */
+export type DeleteCommentPayload = {
+  __typename?: 'deleteCommentPayload';
+  /** A unique identifier for the client performing the mutation. */
+  clientMutationId?: Maybe<Scalars['String']>;
+  comment?: Maybe<Comment>;
+};
+
+/** Autogenerated input type of deletePost */
+export type DeletePostInput = {
+  /** A unique identifier for the client performing the mutation. */
+  clientMutationId?: InputMaybe<Scalars['String']>;
+  id: Scalars['Int'];
+};
+
+/** Autogenerated return type of deletePost. */
+export type DeletePostPayload = {
+  __typename?: 'deletePostPayload';
+  /** A unique identifier for the client performing the mutation. */
+  clientMutationId?: Maybe<Scalars['String']>;
+  post?: Maybe<Post>;
+};
+
+/** Autogenerated input type of deleteTodo */
+export type DeleteTodoInput = {
+  /** A unique identifier for the client performing the mutation. */
+  clientMutationId?: InputMaybe<Scalars['String']>;
+  id: Scalars['Int'];
+};
+
+/** Autogenerated return type of deleteTodo. */
+export type DeleteTodoPayload = {
+  __typename?: 'deleteTodoPayload';
+  /** A unique identifier for the client performing the mutation. */
+  clientMutationId?: Maybe<Scalars['String']>;
+  todo?: Maybe<Todo>;
+};
+
+/** Autogenerated input type of deleteUser */
+export type DeleteUserInput = {
+  /** A unique identifier for the client performing the mutation. */
+  clientMutationId?: InputMaybe<Scalars['String']>;
+  id: Scalars['Int'];
+};
+
+/** Autogenerated return type of deleteUser. */
+export type DeleteUserPayload = {
+  __typename?: 'deleteUserPayload';
+  /** A unique identifier for the client performing the mutation. */
+  clientMutationId?: Maybe<Scalars['String']>;
+  user?: Maybe<User>;
+};
+
+export type Post = {
+  __typename?: 'post';
+  body: Scalars['String'];
+  /** List of comments */
+  comments: CommentConnection;
+  id: Scalars['Int'];
+  title: Scalars['String'];
+  user: User;
+  userId: Scalars['Int'];
+};
+
+
+export type PostCommentsArgs = {
+  after?: InputMaybe<Scalars['String']>;
+  before?: InputMaybe<Scalars['String']>;
+  first?: InputMaybe<Scalars['Int']>;
+  last?: InputMaybe<Scalars['Int']>;
+};
+
+/** The connection type for post. */
+export type PostConnection = {
+  __typename?: 'postConnection';
+  /** A list of edges. */
+  edges?: Maybe<Array<Maybe<PostEdge>>>;
+  /** A list of nodes. */
+  nodes?: Maybe<Array<Maybe<Post>>>;
+  /** Information to aid in pagination. */
+  pageInfo: PageInfo;
+  /** Total count of items */
+  totalCount: Scalars['Int'];
+};
+
+/** An edge in a connection. */
+export type PostEdge = {
+  __typename?: 'postEdge';
+  /** A cursor for use in pagination. */
+  cursor: Scalars['String'];
+  /** The item at the end of the edge. */
+  node?: Maybe<Post>;
+};
+
+export type Todo = {
+  __typename?: 'todo';
+  dueOn?: Maybe<Scalars['ISO8601DateTime']>;
+  id: Scalars['Int'];
+  status: Scalars['String'];
+  title: Scalars['String'];
+  user: User;
+  userId: Scalars['Int'];
+};
+
+/** The connection type for todo. */
+export type TodoConnection = {
+  __typename?: 'todoConnection';
+  /** A list of edges. */
+  edges?: Maybe<Array<Maybe<TodoEdge>>>;
+  /** A list of nodes. */
+  nodes?: Maybe<Array<Maybe<Todo>>>;
+  /** Information to aid in pagination. */
+  pageInfo: PageInfo;
+  /** Total count of items */
+  totalCount: Scalars['Int'];
+};
+
+/** An edge in a connection. */
+export type TodoEdge = {
+  __typename?: 'todoEdge';
+  /** A cursor for use in pagination. */
+  cursor: Scalars['String'];
+  /** The item at the end of the edge. */
+  node?: Maybe<Todo>;
+};
+
+/** Autogenerated input type of updateComment */
+export type UpdateCommentInput = {
+  body?: InputMaybe<Scalars['String']>;
+  /** A unique identifier for the client performing the mutation. */
+  clientMutationId?: InputMaybe<Scalars['String']>;
+  email?: InputMaybe<Scalars['String']>;
+  id: Scalars['Int'];
+  name?: InputMaybe<Scalars['String']>;
+  postId?: InputMaybe<Scalars['Int']>;
+};
+
+/** Autogenerated return type of updateComment. */
+export type UpdateCommentPayload = {
+  __typename?: 'updateCommentPayload';
+  /** A unique identifier for the client performing the mutation. */
+  clientMutationId?: Maybe<Scalars['String']>;
+  comment?: Maybe<Comment>;
+};
+
+/** Autogenerated input type of updatePost */
+export type UpdatePostInput = {
+  body?: InputMaybe<Scalars['String']>;
+  /** A unique identifier for the client performing the mutation. */
+  clientMutationId?: InputMaybe<Scalars['String']>;
+  id: Scalars['Int'];
+  title?: InputMaybe<Scalars['String']>;
+  userId?: InputMaybe<Scalars['Int']>;
+};
+
+/** Autogenerated return type of updatePost. */
+export type UpdatePostPayload = {
+  __typename?: 'updatePostPayload';
+  /** A unique identifier for the client performing the mutation. */
+  clientMutationId?: Maybe<Scalars['String']>;
+  post?: Maybe<Post>;
+};
+
+/** Autogenerated input type of updateTodo */
+export type UpdateTodoInput = {
+  /** A unique identifier for the client performing the mutation. */
+  clientMutationId?: InputMaybe<Scalars['String']>;
+  dueOn?: InputMaybe<Scalars['ISO8601DateTime']>;
+  id: Scalars['Int'];
+  status?: InputMaybe<Scalars['String']>;
+  title?: InputMaybe<Scalars['String']>;
+  userId?: InputMaybe<Scalars['Int']>;
+};
+
+/** Autogenerated return type of updateTodo. */
+export type UpdateTodoPayload = {
+  __typename?: 'updateTodoPayload';
+  /** A unique identifier for the client performing the mutation. */
+  clientMutationId?: Maybe<Scalars['String']>;
+  todo?: Maybe<Todo>;
+};
+
+/** Autogenerated input type of updateUser */
+export type UpdateUserInput = {
+  /** A unique identifier for the client performing the mutation. */
+  clientMutationId?: InputMaybe<Scalars['String']>;
+  email?: InputMaybe<Scalars['String']>;
+  gender?: InputMaybe<Scalars['String']>;
+  id: Scalars['Int'];
+  name?: InputMaybe<Scalars['String']>;
+  status?: InputMaybe<Scalars['String']>;
+};
+
+/** Autogenerated return type of updateUser. */
+export type UpdateUserPayload = {
+  __typename?: 'updateUserPayload';
+  /** A unique identifier for the client performing the mutation. */
+  clientMutationId?: Maybe<Scalars['String']>;
+  user?: Maybe<User>;
+};
+
+export type User = {
+  __typename?: 'user';
+  email: Scalars['String'];
+  gender: Scalars['String'];
+  id: Scalars['Int'];
+  name: Scalars['String'];
+  /** List of posts */
+  posts: PostConnection;
+  status: Scalars['String'];
+  /** List of todos */
+  todos: TodoConnection;
+};
+
+
+export type UserPostsArgs = {
+  after?: InputMaybe<Scalars['String']>;
+  before?: InputMaybe<Scalars['String']>;
+  first?: InputMaybe<Scalars['Int']>;
+  last?: InputMaybe<Scalars['Int']>;
+};
+
+
+export type UserTodosArgs = {
+  after?: InputMaybe<Scalars['String']>;
+  before?: InputMaybe<Scalars['String']>;
+  first?: InputMaybe<Scalars['Int']>;
+  last?: InputMaybe<Scalars['Int']>;
+};
+
+/** The connection type for user. */
+export type UserConnection = {
+  __typename?: 'userConnection';
+  /** A list of edges. */
+  edges?: Maybe<Array<Maybe<UserEdge>>>;
+  /** A list of nodes. */
+  nodes?: Maybe<Array<Maybe<User>>>;
+  /** Information to aid in pagination. */
+  pageInfo: PageInfo;
+  /** Total count of items */
+  totalCount: Scalars['Int'];
+};
+
+/** An edge in a connection. */
+export type UserEdge = {
+  __typename?: 'userEdge';
+  /** A cursor for use in pagination. */
+  cursor: Scalars['String'];
+  /** The item at the end of the edge. */
+  node?: Maybe<User>;
+};

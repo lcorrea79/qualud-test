@@ -1,5 +1,14 @@
 <app-header title="Todo List"></app-header>
 
 <ion-content>
-
+    <div class="wrapper-grid">
+        <!-- movies persisted on the backend -->
+        <div class="wrapper-movie">
+          <ion-button >New ToDo</ion-button>
+            <app-todo-card
+                *ngFor="let todo of todos$"
+                [todoInfo]="todo"                
+            ></app-todo-card>
+        </div>
+        </div>
 </ion-content>

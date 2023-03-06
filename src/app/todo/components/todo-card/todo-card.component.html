@@ -1,3 +1,9 @@
-<p>
-  todo-card works!
-</p>
+<ion-card>
+  <ion-card-header>
+    <ion-card-title> {{ todoInfo?.title }}</ion-card-title>
+    <ion-card-subtitle>By {{ todoInfo?.user?.name }}</ion-card-subtitle>
+  </ion-card-header>
+  <ion-card-content>
+    {{ todoInfo?.dueOn | date }}
+  </ion-card-content>
+</ion-card>

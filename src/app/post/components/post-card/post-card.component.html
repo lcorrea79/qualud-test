@@ -1,3 +1,16 @@
-<p>
-  post-card works!
-</p>
+<ion-card>
+  <ion-card-header>
+    <ion-card-title> {{ postInfo?.title }}</ion-card-title>
+    <ion-card-subtitle>By {{ postInfo?.user?.name }}</ion-card-subtitle>
+  </ion-card-header>
+  <ion-card-content>
+    {{ postInfo?.body }}
+    <ion-label>
+    Cantidad de Comentarios: {{ postInfo?.comments?.nodes?.length }}
+    </ion-label>
+  </ion-card-content>
+  <app-comment-card 
+              *ngFor="let comment of postInfo['comments']['nodes']"
+             [commentInfo]="comment" 
+             ></app-comment-card> 
+</ion-card>
