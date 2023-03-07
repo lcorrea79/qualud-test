@@ -1,7 +1,8 @@
+
 import { Injectable } from '@angular/core';
 import { gql } from 'apollo-angular';
 import * as Apollo from 'apollo-angular';
-import { Maybe, PageInfo, Scalars, UserEdge, User, UserConnection, QueryCommentArgs, QueryUserArgs, Post, QueryPostArgs, CreatePostInput, MutationCreatePostArgs } from './generated';
+import { Maybe, PageInfo, Scalars, UserEdge, Post, QueryPostArgs, MutationCreatePostArgs, CreatePostInput, InputMaybe, MutationDeletePostArgs, MutationCreateCommentArgs, MutationDeleteCommentArgs } from './generated';
 
 export type PostConnectionFragment = { __typename?: 'postConnection', 
 /** A list of edges. */
@@ -30,7 +31,7 @@ totalCount: number
 export const PostConnectionInfoFragmentDoc = gql`
     fragment PostConnectionInfo on postConnection {
       edges { cursor }   
-      nodes { id title body user {  id name email } comments { nodes { name email body }}}   
+      nodes { id title body user {  id name email } comments { nodes { id name email body } } userId}    
       pageInfo { endCursor hasNextPage hasPreviousPage startCursor}
       totalCount
 }    
@@ -103,12 +104,14 @@ export const PostPayloadInfoFragmentDoc = gql`
 }    
 `;
 
-export type CreatePostMutation = { __typename?: 'Mutation', createPost: { __typename?: 'createPostPayload', clientMutationId?: Maybe<Scalars['String']>, post: Maybe<Post> } };
+export type CreatePostMutation = { __typename?: 'Mutation', createPost: { __typename?: 'createPostPayload', clientMutationId?: string, post: Post | undefined } };
+
+
 
 
 export const CreatePostDocument = gql`
-    mutation CreatePost($postInputCreate: CreatePostInput!) {
-      createPost(input: $postInputCreate) {
+    mutation CreatePost($input: createPostInput!) {
+      createPost(input: $input) {
     ...PostPayloadInfo
   }
 } ${PostPayloadInfoFragmentDoc}`;
@@ -125,3 +128,116 @@ export const CreatePostDocument = gql`
     }
   }
   
+
+  /* Delete Post*/
+
+export const DeletePostPayloadInfoFragmentDoc = gql`
+fragment DeletePostPayloadInfo on deletePostPayload {      
+  clientMutationId
+  post { title body }
+}    
+`;
+
+export type DeletePostMutation = { __typename?: 'Mutation', deletePost: { __typename?: 'deletePostPayload', clientMutationId?: string, post: Post | undefined } };
+
+
+
+
+export const DeletePostDocument = gql`
+mutation DeletePost($input: deletePostInput!) {
+  deletePost(input: $input) {
+...DeletePostPayloadInfo
+}
+} ${DeletePostPayloadInfoFragmentDoc}`;
+
+@Injectable({
+providedIn: 'root'
+})
+export class DeletePostGQL extends Apollo.Mutation<DeletePostMutation, MutationDeletePostArgs> {
+
+override document = DeletePostDocument;
+
+constructor(apollo: Apollo.Apollo) {
+  super(apollo);
+}
+}
+
+
+/* New Comment*/
+
+export const CommentPayloadInfoFragmentDoc = gql`
+    fragment CommentPayloadInfo on createCommentPayload {      
+      clientMutationId
+      comment { 
+        body
+        email
+        id
+        name
+        post {id title}
+        postId
+       }
+}    
+`;
+
+export type CreateCommentMutation = { __typename?: 'Mutation', createComment: { __typename?: 'createCommentPayload', clientMutationId?: string, comment: Comment | undefined } };
+
+
+
+
+export const CreateCommentDocument = gql`
+    mutation CreateComment($input: createCommentInput!) {
+      createComment(input: $input) {
+    ...CommentPayloadInfo
+  }
+} ${CommentPayloadInfoFragmentDoc}`;
+
+@Injectable({
+    providedIn: 'root'
+  })
+  export class CreateCommentGQL extends Apollo.Mutation<CreateCommentMutation, MutationCreateCommentArgs> {
+    
+    override document = CreateCommentDocument;
+    
+    constructor(apollo: Apollo.Apollo) {
+      super(apollo);
+    }
+  }
+  
+
+  /* Delete Post*/
+
+export const DeleteCommentPayloadInfoFragmentDoc = gql`
+fragment DeleteCommentPayloadInfo on deleteCommentPayload {      
+  clientMutationId
+  comment { body
+        email
+        id
+        name
+        post {id title}
+        postId }
+}    
+`;
+
+export type DeleteCommentMutation = { __typename?: 'Mutation', deleteComment: { __typename?: 'deleteCommentPayload', clientMutationId?: string, comment: Comment | undefined } };
+
+
+
+
+export const DeleteCommentDocument = gql`
+mutation DeleteComment($input: deleteCommentInput!) {
+  deleteComment(input: $input) {
+...DeleteCommentPayloadInfo
+}
+} ${DeleteCommentPayloadInfoFragmentDoc}`;
+
+@Injectable({
+providedIn: 'root'
+})
+export class DeleteCommentGQL extends Apollo.Mutation<DeleteCommentMutation, MutationDeleteCommentArgs> {
+
+override document = DeleteCommentDocument;
+
+constructor(apollo: Apollo.Apollo) {
+  super(apollo);
+}
+}

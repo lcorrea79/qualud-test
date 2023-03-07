@@ -1,5 +1,7 @@
-import { Component, OnInit, Input } from '@angular/core';
-import { Maybe } from 'src/app/graphql/generated';
+import { Component, OnInit, Input, EventEmitter, Output } from '@angular/core';
+import { AlertController } from '@ionic/angular';
+import { Comment, Maybe } from 'src/app/graphql/generated';
+import { PostService } from '../../services/post.service';
 
 @Component({
   selector: 'app-comment-card',
@@ -8,9 +10,47 @@ import { Maybe } from 'src/app/graphql/generated';
 })
 export class CommentCardComponent  implements OnInit {
 
-  @Input() commentInfo!: any;
-  constructor() { }
+  @Input() commentInfo!: Maybe<Comment> | undefined;
+  @Input() canDelete: boolean = false;
 
-  ngOnInit() {}
+  constructor(private postService: PostService,
+    private alertCtrl: AlertController) { }
 
+  ngOnInit() {
+    
+  }
+
+  async presentAlert() {
+    const alert = await this.alertCtrl.create({
+      header: 'Alert',
+      subHeader: 'Are you sure delete this Comment?',
+      message: '',
+      buttons: [
+        {
+          text: 'Cancel',
+          role: 'cancel',
+          handler: () => {
+            return;
+          },
+        },
+        {
+          text: 'OK',
+          role: 'confirm',
+          handler: () => {
+            this.deleteComment();
+          },
+        },
+      ],
+    });
+
+    await alert.present();
+  }
+
+  deleteComment(){
+    this.postService.deleteComment( {clientMutationId:"trs12", id: 5}).subscribe(
+      data => {
+        
+      }
+    )
+  }
 }

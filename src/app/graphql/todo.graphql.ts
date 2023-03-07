@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { gql } from 'apollo-angular';
 import * as Apollo from 'apollo-angular';
-import { Maybe, PageInfo, Scalars, UserEdge, User, UserConnection, QueryCommentArgs, QueryUserArgs, Post, QueryPostArgs, CreatePostInput, MutationCreatePostArgs, Todo } from './generated';
+import { Maybe, PageInfo, Scalars, UserEdge, User, UserConnection, QueryCommentArgs, QueryUserArgs, Post, QueryPostArgs, CreatePostInput, MutationCreatePostArgs, Todo, MutationCreateTodoArgs, MutationDeleteTodoArgs } from './generated';
 
 export type TodoConnectionFragment = { __typename?: 'todoConnection', 
 /** A list of edges. */
@@ -57,43 +57,80 @@ export const TodoConnectionInfoFragmentDocument = gql`
     }
   }
 
-/*
-export type PostInfoFragment = { __typename?: 'post', 
- id: number,
- title: string,
- body: string
-}
 
-export type GetPostByIdQuery = { __typename?: 'Query', post: { __typename?: 'post', id: number, title: string, body: string } };
+/* New ToDo*/
 
-export const PostInfoFragmentDoc = gql`
-    fragment PostInfo on post {      
-      id
-      title
-      body
+
+export const TodoPayloadInfoFragmentDoc = gql`
+    fragment TodoPayloadInfo on createTodoPayload {      
+      clientMutationId
+      todo { dueOn             
+             id
+             status
+             title
+             user { id name email }
+             }
 }    
 `;
 
-export const PostInfoFragmentDocument = gql`
-    query GetPostById($id: ID!) {
-     user(id: $id) {
-    ...UserInfo
+export type CreateTodoMutation = { __typename?: 'Mutation', createTodo: { __typename?: 'createTodoPayload', clientMutationId?: string, todo: Todo | undefined } };
+
+
+
+
+export const CreateTodoDocument = gql`
+    mutation CreateTodo($todoInputCreate: createTodoInput!) {
+      createTodo(input: $todoInputCreate) {
+    ...TodoPayloadInfo
   }
-} ${PostInfoFragmentDoc}   
-`;
+} ${TodoPayloadInfoFragmentDoc}`;
 
 @Injectable({
     providedIn: 'root'
   })
-  export class GetPostByIdGQL extends Apollo.Query<GetPostByIdQuery, QueryPostArgs> {
+  export class CreateTodoGQL extends Apollo.Mutation<CreateTodoMutation, MutationCreateTodoArgs> {
     
-    override document = PostInfoFragmentDocument;
+    override document = CreateTodoDocument;
     
     constructor(apollo: Apollo.Apollo) {
       super(apollo);
     }
   }
-*/
-
-
   
+  /* Delete Todo*/
+
+export const DeleteTodoPayloadInfoFragmentDoc = gql`
+fragment DeleteTodoPayloadInfo on deleteTodoPayload {      
+  clientMutationId
+  todo { dueOn             
+             id
+             status
+             title
+             user { id name email }
+       }
+}    
+`;
+
+export type DeleteTodoMutation = { __typename?: 'Mutation', deleteTodo: { __typename?: 'deleteTodoPayload', clientMutationId?: string, todo: Todo | undefined } };
+
+
+
+
+export const DeleteTodoDocument = gql`
+mutation DeleteTodo($input: deleteTodoInput!) {
+  deleteTodo(input: $input) {
+...DeleteTodoPayloadInfo
+}
+} ${DeleteTodoPayloadInfoFragmentDoc}`;
+
+@Injectable({
+providedIn: 'root'
+})
+export class DeleteTodoGQL extends Apollo.Mutation<DeleteTodoMutation, MutationDeleteTodoArgs> {
+
+override document = DeleteTodoDocument;
+
+constructor(apollo: Apollo.Apollo) {
+  super(apollo);
+}
+}

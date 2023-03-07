@@ -4,6 +4,7 @@
     <ion-card-subtitle>By {{ commentInfo?.email }}</ion-card-subtitle>
   </ion-card-header>
   <ion-card-content>
-    {{ commentInfo?.body }}
+    <ion-icon *ngIf="canDelete" slot="end" class="delete-button" (click)="presentAlert();" name="trash-outline"></ion-icon>
+      {{ commentInfo?.body }}
   </ion-card-content>
 </ion-card>

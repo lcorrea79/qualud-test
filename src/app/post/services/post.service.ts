@@ -1,20 +1,26 @@
-import { CreatePostInput } from './../../graphql/generated';
+import { PostConnectionInfoFragmentDoc, PostConnectionInfoFragmentDocument, GetAllPostsQuery, DeletePostMutation, DeletePostGQL, CreateCommentMutation, CreateCommentGQL, DeleteCommentGQL, DeleteCommentMutation } from './../../graphql/post.graphql';
+import { CreatePostInput, CreatePostPayload, DeletePostInput, CreateCommentInput, DeleteCommentInput } from './../../graphql/generated';
 import { Injectable } from '@angular/core';
-import { CreatePostGQL, CreatePostMutation, GetAllPostsGQL, GetAllPostsQuery, GetPostByIdGQL, PostConnectionFragment, PostInfoFragment } from 'src/app/graphql/post.graphql';
-import { Observable } from 'rxjs';
+import { CreatePostGQL, CreatePostMutation, GetAllPostsGQL, GetPostByIdGQL, PostConnectionFragment, PostInfoFragment } from 'src/app/graphql/post.graphql';
+import { BehaviorSubject, Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { QueryPostArgs } from 'src/app/graphql/generated';
 import { FetchResult } from '@apollo/client/core';
-import { DataProxy } from '@apollo/client/cache';
+
+
 
 @Injectable({
   providedIn: 'root'
 })
 export class PostService {
+  
 
   constructor(private getUsersGQL: GetAllPostsGQL,
     private getPostByIdGQL: GetPostByIdGQL,
-    private createPostGQL: CreatePostGQL
+    private createPostGQL: CreatePostGQL,
+    private deletePostGQL: DeletePostGQL,
+    private createCommentGQL: CreateCommentGQL,
+    private deleteCommentGQL: DeleteCommentGQL
   ) { }
 
   public getAllPosts(): Observable<PostConnectionFragment> {
@@ -28,14 +34,52 @@ export class PostService {
   public createPost({ body, clientMutationId, title, userId }: CreatePostInput): Observable<FetchResult<CreatePostMutation>> {
     
     return this.createPostGQL.mutate(
-      {
-        input: {
+       {   
+        input:{     
           body,
           clientMutationId,
           title,
           userId,
-        },
-      },
+        },       
+      },			
+    );
+
+  }
+
+  public deletePost({  clientMutationId, id }: DeletePostInput): Observable<FetchResult<DeletePostMutation>> {
+    
+    return this.deletePostGQL.mutate(
+       {   
+        input:{     
+          clientMutationId,
+          id
+        },       
+      },			
+    );
+
+  }
+
+  public createComment({ body, clientMutationId,  email, name,  postId }: CreateCommentInput): Observable<FetchResult<CreateCommentMutation>> {
+    
+    return this.createCommentGQL.mutate(
+       {   
+        input:{     
+          body, clientMutationId,  email, name,  postId
+        },       
+      },			
+    );
+
+  }
+
+  public deleteComment({  clientMutationId, id }: DeleteCommentInput): Observable<FetchResult<DeleteCommentMutation>> {
+    
+    return this.deleteCommentGQL.mutate(
+       {   
+        input:{     
+          clientMutationId,
+          id
+        },       
+      },			
     );
 
   }

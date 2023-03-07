@@ -11,11 +11,11 @@ const routes: Routes = [
     loadChildren: () => import('./user/user.module').then( m => m.UserModule)
   },
   {
-    path: 'post-list',
+    path: 'post',
     loadChildren: () => import('./post/post.module').then( m => m.PostModule)
-  },
-  {
-    path: 'todo-list',
+  }, 
+   {
+    path: 'todo',
     loadChildren: () => import('./todo/todo.module').then( m => m.TodoModule)
   },
   {

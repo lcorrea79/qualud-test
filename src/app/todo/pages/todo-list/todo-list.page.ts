@@ -22,4 +22,13 @@ export class TodoListPage implements OnInit {
     );
   }
 
+  createTodo(){
+    this.todoService.createTodo({clientMutationId:"abc987",dueOn:null,
+                                status: "pending",title: "Tarea # 1", userId:845634 }).subscribe(
+                                  data => {
+                                    console.log("Todo: ", data);
+                                  }
+                                )
+  }
+
 }
