@@ -1,12 +1,18 @@
 <ion-app>
   <ion-split-pane contentId="main-content">
     <ion-menu contentId="main-content" menuId="primerMenu" type="overlay">
-      <ion-content>
+      <ion-content class="m-20">
         <ion-list id="inbox-list">
           <ion-list-header>Qualud Test</ion-list-header>
           <ion-note>Liuva Correa Arzola</ion-note>
-  
+          <!--<ion-item>
+            <ion-icon slot="start" name="moon"></ion-icon>
+            <ion-label>Toggle Dark Theme</ion-label>
+            <ion-toggle slot="end"                         
+                        (ionChange)="cambio()" checked></ion-toggle>
+          </ion-item>-->
           <ion-menu-toggle auto-hide="false" *ngFor="let p of appPages; let i = index">
+            
             <ion-item routerDirection="root" [routerLink]="[p.url]" lines="none" detail="false" routerLinkActive="selected">
               <ion-icon aria-hidden="true" slot="start" [ios]="p.icon + '-outline'" [md]="p.icon + '-sharp'"></ion-icon>
               <ion-label>{{ p.title }}</ion-label>

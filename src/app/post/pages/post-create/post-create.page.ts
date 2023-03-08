@@ -20,15 +20,15 @@ export class PostCreatePage implements OnInit {
 
   createPost($event: CreatePostInput){
 
-    this.router.navigateByUrl("post");
     $event.userId = Number(localStorage.getItem("user_id"));
     $event.clientMutationId = "abc1";
      this.postService.createPost( $event ).subscribe(
       data => {
-        console.log("Info del Insert:", data);
+        
         this.router.navigate(['./post']);
         //this.nav.navigateBack(['/post'])
       }
      )
   }
+  
 }

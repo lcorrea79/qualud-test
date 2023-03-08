@@ -1,5 +1,7 @@
 {
   "name": "qualud-test",
-  "integrations": {},
+  "integrations": {
+    "capacitor": {}
+  },
   "type": "angular"
 }

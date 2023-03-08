@@ -1,3 +1,5 @@
+
+
 import { NgModule } from '@angular/core';
 //import { BrowserModule } from '@angular/platform-browser';
 import { RouteReuseStrategy } from '@angular/router';
@@ -44,6 +46,7 @@ import {MatSnackBarModule} from '@angular/material/snack-bar';
 import {MatTableModule} from '@angular/material/table';
 import {MatSortModule} from '@angular/material/sort';
 import {MatPaginatorModule} from '@angular/material/paginator';
+import { NetworkService } from './shared/services/network.service';
 
 @NgModule({ 
  
@@ -91,7 +94,7 @@ export class MaterialModule {}
   declarations: [AppComponent],
   imports: [IonicModule.forRoot(), BrowserAnimationsModule, AppRoutingModule,MaterialModule, GraphQLModule, HttpClientModule,
    ],
-  providers: [{ provide: RouteReuseStrategy, useClass: IonicRouteStrategy }],
+  providers: [NetworkService, { provide: RouteReuseStrategy, useClass: IonicRouteStrategy }],
   bootstrap: [AppComponent],
 })
 export class AppModule {}

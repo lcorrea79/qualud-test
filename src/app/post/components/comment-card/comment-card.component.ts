@@ -2,6 +2,7 @@ import { Component, OnInit, Input, EventEmitter, Output } from '@angular/core';
 import { AlertController } from '@ionic/angular';
 import { Comment, Maybe } from 'src/app/graphql/generated';
 import { PostService } from '../../services/post.service';
+import { Haptics, ImpactStyle } from '@capacitor/haptics';
 
 @Component({
   selector: 'app-comment-card',
@@ -12,6 +13,7 @@ export class CommentCardComponent  implements OnInit {
 
   @Input() commentInfo!: Maybe<Comment> | undefined;
   @Input() canDelete: boolean = false;
+  @Output() onDeleted: EventEmitter<number> = new EventEmitter<number>();
 
   constructor(private postService: PostService,
     private alertCtrl: AlertController) { }
@@ -20,7 +22,7 @@ export class CommentCardComponent  implements OnInit {
     
   }
 
-  async presentAlert() {
+  async delete() {
     const alert = await this.alertCtrl.create({
       header: 'Alert',
       subHeader: 'Are you sure delete this Comment?',
@@ -43,14 +45,11 @@ export class CommentCardComponent  implements OnInit {
       ],
     });
 
+    Haptics.vibrate();
     await alert.present();
   }
 
   deleteComment(){
-    this.postService.deleteComment( {clientMutationId:"trs12", id: 5}).subscribe(
-      data => {
-        
-      }
-    )
+    this.onDeleted.emit(this.commentInfo?.id);
   }
 }

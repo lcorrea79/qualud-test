@@ -7,6 +7,8 @@ import { CommonModule } from '@angular/common';
 import { SharedModule } from '../shared/shared.module';
 import { TodoCardComponent } from './components/todo-card/todo-card.component';
 import { TodoCreatePage } from './pages/todo-create/todo-create.page';
+import { MaterialModule } from '../app.module';
+import { ReactiveFormsModule } from '@angular/forms';
 
 
 
@@ -14,6 +16,8 @@ import { TodoCreatePage } from './pages/todo-create/todo-create.page';
   declarations: [TodoListPage, TodoCardComponent,TodoFormComponent, TodoCreatePage],
   imports: [
     CommonModule,
+    MaterialModule,
+    ReactiveFormsModule,
     TodoRoutingModule,
     IonicModule,
     SharedModule

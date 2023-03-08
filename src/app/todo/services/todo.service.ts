@@ -1,9 +1,9 @@
-import { CreateTodoGQL, CreateTodoMutation, DeleteTodoMutation, DeleteTodoGQL } from './../../graphql/todo.graphql';
+import { CreateTodoGQL, CreateTodoMutation, DeleteTodoMutation, DeleteTodoGQL, UpdateTodoMutation, UpdateTodoGQL } from './../../graphql/todo.graphql';
 import { Injectable } from '@angular/core';
 import { GetAllTodosGQL, TodoConnectionFragment } from 'src/app/graphql/todo.graphql';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
-import { CreateTodoInput, DeleteTodoInput } from 'src/app/graphql/generated';
+import { CreateTodoInput, DeleteTodoInput, UpdateTodoInput } from 'src/app/graphql/generated';
 import { FetchResult } from '@apollo/client/core';
 
 @Injectable({
@@ -13,6 +13,7 @@ export class TodoService {
 
   constructor(private getTodosGQL: GetAllTodosGQL,
               private createTodoGQL: CreateTodoGQL,
+              private updateTodoGQL: UpdateTodoGQL,
               private deleteTodoGQL: DeleteTodoGQL
   ) { }
 
@@ -29,7 +30,22 @@ export class TodoService {
     return this.createTodoGQL.mutate(
       {
         input: {
-          clientMutationId, dueOn, status, title, userId
+          clientMutationId:"abc987", dueOn:"2020-09-23T18:35:21.154355Z", status:"pending", title:"Title Test", userId:864951
+        },
+      },
+    );
+
+  }
+  public updateTodo( inp : UpdateTodoInput): Observable<FetchResult<UpdateTodoMutation>> {
+    
+    return this.updateTodoGQL.mutate(
+      {
+        input: {
+          clientMutationId: inp.clientMutationId,
+          id: inp.id,
+          dueOn: inp.dueOn,
+          title: inp.title,
+          status: inp.status
         },
       },
     );

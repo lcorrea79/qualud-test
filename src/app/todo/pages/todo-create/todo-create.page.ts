@@ -1,4 +1,7 @@
+import { TodoService } from './../../services/todo.service';
 import { Component, OnInit } from '@angular/core';
+import { CreateTodoInput } from 'src/app/graphql/generated';
+import {  Router } from '@angular/router';
 
 @Component({
   selector: 'app-todo-create',
@@ -7,9 +10,23 @@ import { Component, OnInit } from '@angular/core';
 })
 export class TodoCreatePage implements OnInit {
 
-  constructor() { }
+  constructor(private todoService: TodoService,
+              private router: Router ) { }
 
   ngOnInit() {
+  }
+
+  createTodo($event: CreateTodoInput){
+    $event.userId = Number(localStorage.getItem("user_id"));
+    $event.clientMutationId = "abc1";
+    console.log("Create Todo", $event);
+     this.todoService.createTodo( $event ).subscribe(
+      data => {
+        console.log("Info del Insert:", data);
+        this.router.navigate(['./todo']);
+        //this.nav.navigateBack(['/post'])
+      }
+     )
   }
 
 }

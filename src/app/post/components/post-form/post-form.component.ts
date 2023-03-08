@@ -10,8 +10,8 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 })
 export class PostFormComponent  implements OnInit {
 
-  @Output() addPost: EventEmitter<CreatePostInput> = new EventEmitter<CreatePostInput>();
-
+    @Output() createPost: EventEmitter<CreatePostInput> = new EventEmitter<CreatePostInput>();
+	
 	protected readonly form: FormGroup = this.fb.nonNullable.group({
 		title: ['', [Validators.required]],
 		body: ['', [Validators.required]],
@@ -21,28 +21,28 @@ export class PostFormComponent  implements OnInit {
   constructor(private fb: FormBuilder) { }
 
   ngOnInit() {
-    this.form.markAllAsTouched();
+    this.form.markAllAsTouched();		
 
-		if (this.form.invalid) {
-			return;
-		}
+  }
 
-		// get data
+  emitCreatePost(){
+			// get data
 		const createPostInput: CreatePostInput = {
 			title: this.form.get('title')?.value,
 			body: this.form.get('body')?.value,
       userId: 123
 		};
-		
 
-		// emit
-		this.addPost.emit(
-			createPostInput
-		);
+		this.createPost.emit(createPostInput);
   }
 
   onSubmit(){
-	this.addPost.emit(this.form.value);
+
+	if (this.form.invalid) {
+		return;
+	}	
+	this.emitCreatePost();
+
   }
 
 }

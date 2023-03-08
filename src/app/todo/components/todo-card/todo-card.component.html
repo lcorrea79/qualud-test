@@ -1,14 +1,23 @@
-<ion-card>
-  <ion-card-header>
-    <ion-card-title> {{ todoInfo?.title }}
-      <ion-item>
-        <ion-checkbox slot="end"  [checked]="todoInfo?.status == 'completed'"></ion-checkbox>
-        
-      </ion-item>
-    </ion-card-title>
-    <ion-card-subtitle>By {{ todoInfo?.user?.name }}</ion-card-subtitle>
-  </ion-card-header>
-  <ion-card-content>
-    {{ todoInfo?.dueOn | date }}
-  </ion-card-content>
-</ion-card>
+<ion-item>
+<div class="w-full px-5">
+  <div class="flex w-full p-2">
+    <ion-toolbar>
+      
+       <!-- <ion-checkbox slot="start" class="text-center" [checked]="todoInfo?.status == 'completed'" (ionChange)="updateStatus($event)"></ion-checkbox>
+           -->
+        <p class="text-emerald-700 text-left text-lg">{{ todoInfo?.title }}</p>
+         
+        <ion-icon  slot="end" class="delete-button text-red-600" (click)="presentAlert();" name="trash-outline"></ion-icon>
+      
+    </ion-toolbar>
+      
+    </div>
+  <div class="flex pb-2">
+    <div class="italic">By {{ todoInfo?.user?.name }}</div>
+    <div class="pl-5 flex text-right">
+      Due On: <p class="text-gray-800 font-bold">{{ todoInfo?.dueOn | date }}</p>
+    </div>
+  </div>
+
+</div>
+</ion-item>

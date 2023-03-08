@@ -1,15 +1,19 @@
-<ion-card>
-  <ion-card-header>
-    <ion-card-title> {{ postInfo?.title }}
+
+
+
+<div class="w-full">
+  <ion-card-header>    
+    <ion-card-title> 
+      <ion-toolbar>
+        <p class="text-emerald-600">{{ postInfo?.title }}</p>
+        <ion-icon slot="end"  *ngIf="canDelete" slot="end" class="delete-button text-red-600" (click)="presentAlert();" name="trash-outline"></ion-icon>    
+      </ion-toolbar>     
       </ion-card-title>
-    <ion-card-subtitle>By {{ postInfo?.user?.name }}</ion-card-subtitle>
-   
+    <ion-card-subtitle><p class="italic">By {{ postInfo?.user?.name }}</p></ion-card-subtitle>  
               
   </ion-card-header>
   <ion-card-content>
-    <ion-icon *ngIf="canDelete" slot="end" class="delete-button" (click)="presentAlert();" name="trash-outline"></ion-icon>
-    
-    {{ postInfo?.body }}
+    <p class="text-gray-900">{{ postInfo?.body }}</p>
     <ion-label>
     Cantidad de Comentarios: {{ postInfo?.comments?.nodes?.length }}
     </ion-label>
@@ -17,11 +21,5 @@
       Cantidad de Comentarios: {{ postInfo?.user?.id }}
       </ion-label>
   </ion-card-content>
-  <ion-item *ngIf="user_id == postInfo?.user?.id">
-  <app-comment-card 
-              *ngFor="let comment of postInfo.comments?.nodes"
-              [canDelete]="user_id == postInfo?.user?.id"
-              [commentInfo]="comment" 
-             ></app-comment-card> 
-            </ion-item>
-</ion-card>
+  
+</div>

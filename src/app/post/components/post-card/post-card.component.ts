@@ -1,6 +1,7 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { AlertController } from '@ionic/angular';
 import { Post } from 'src/app/graphql/generated';
+import { Haptics, ImpactStyle } from '@capacitor/haptics';
 
 @Component({
   selector: 'app-post-card',
@@ -20,6 +21,8 @@ export class PostCardComponent  implements OnInit {
 
   ngOnInit() {}
 
+  
+
   async presentAlert() {
     const alert = await this.alertCtrl.create({
       header: 'Alert',
@@ -37,12 +40,14 @@ export class PostCardComponent  implements OnInit {
           text: 'OK',
           role: 'confirm',
           handler: () => {
+            
             this.onDeleted.emit(this.postInfo.id);
           },
         },
       ],
     });
 
+    Haptics.vibrate();
     await alert.present();
   }
 

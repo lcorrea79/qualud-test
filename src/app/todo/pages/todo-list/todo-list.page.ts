@@ -1,4 +1,4 @@
-import { Todo } from './../../../graphql/generated';
+import { Todo, UpdateTodoInput } from './../../../graphql/generated';
 import { TodoService } from './../../services/todo.service';
 import { Component, OnInit } from '@angular/core';
 
@@ -29,6 +29,24 @@ export class TodoListPage implements OnInit {
                                     console.log("Todo: ", data);
                                   }
                                 )
+  }
+
+  deleteTodo($event: number){
+    this.todos$ = this.todos$?.filter(f => f.id != $event);
+    /*this.todoService.deleteTodo({ clientMutationId: "acv", id: $event}).subscribe(
+      data => {
+         this.todos$ = this.todos$?.filter(f => f.id != $event);
+      }
+    );*/
+  }
+
+  updateTodo($event: UpdateTodoInput){
+    $event.clientMutationId = "xyz58";
+    this.todoService.updateTodo($event).subscribe(
+      data => {
+        console.log("Change Status OK")
+      }
+    );
   }
 
 }

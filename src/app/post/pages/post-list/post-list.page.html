@@ -1,22 +1,38 @@
 <app-header title="Post List"></app-header>
-<ion-content>
+
+
+<ion-content class="w-full">
     <ion-grid>
         <ion-row>
-          <ion-col><ion-searchbar [(ngModel)]="search" animated></ion-searchbar></ion-col>          
+          <ion-col><ion-searchbar [(ngModel)]="search" placeholder="Search by Author" animated></ion-searchbar></ion-col>          
         </ion-row>
       </ion-grid>
-    <div class="wrapper-grid">
-        <!-- movies persisted on the backend -->
-        <div class="wrapper-movie">
-          <ion-button routerLink="create">New Post</ion-button>
-            <app-post-card
-                *ngFor="let post of posts$ | filterAuthor:search"
+    <div class="w-full">        
+        <div class="w-full text-right pr-5">
+          <ion-button routerLink="create" class="text-white text-bold"><ion-icon name="create-outline"></ion-icon>New Post</ion-button>          
+          <ion-item *ngFor="let post of posts$ | filterAuthor:search">
+            <div  class="w-11/12">
+            <app-post-card                
                 [postInfo]="post"  
                 [canDelete]="post.userId == user_id"
                 (onDeleted) = "deletePost($event)"    
-            >
-                      
-          </app-post-card>
+            ></app-post-card>
+            
+            <div class="w-full" *ngIf="user_id == post?.user?.id">
+              <p class="text-s pl-2 font-bold">Comments</p>
+              <div class="pl-2" *ngFor="let comment of post.comments?.nodes">               
+                <app-comment-card                           
+                            [canDelete]="user_id == post?.user?.id"
+                            [commentInfo]="comment" 
+                            (onDeleted)="deleteComment($event,post?.id)"
+                           ></app-comment-card> 
+                       
+              </div> 
+                        </div>
+                    
+          </div>
+        </ion-item>
+      
         </div>
         </div>
 </ion-content>

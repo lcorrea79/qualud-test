@@ -1,10 +1,60 @@
-<ion-header class="ion-no-border">  
-  <ion-toolbar>
+<ion-header class="ion-no-border" >  
+  <ion-toolbar class="flex">
     <ion-buttons slot="start">      
       <ion-menu-button color="primary"
                        menu="primerMenu">
       </ion-menu-button>
+      
     </ion-buttons>
-    <ion-title color="primary">{{ title }}</ion-title>    
+    <ion-title color="primary">{{ title }}   
+      
+    </ion-title>
+     <ion-icon slot="end"  (click)="setOpen(true)" [color]="colorUser" class="px-5" name="person-outline">   
+    </ion-icon>  
+
   </ion-toolbar>
 </ion-header>
+
+<ion-content class="ion-padding">
+  <ion-button expand="block" (click)="setOpen(true)">Open</ion-button>
+  <ion-modal [isOpen]="isModalOpen">
+    <ng-template>
+      <ion-header>
+        <ion-toolbar>
+          <ion-title>Select User</ion-title>
+          <ion-buttons slot="start">
+            <ion-button (click)="setUser(false)">Confirm</ion-button>
+          </ion-buttons>
+          <ion-buttons slot="end">
+            <ion-button (click)="setOpen(false)">Close</ion-button>
+          </ion-buttons>
+        </ion-toolbar>
+      </ion-header>
+      <ion-content class="ion-padding">
+        
+         
+
+
+  <ion-list >   
+    <ion-radio-group  [(ngModel)]="currentUser">
+    <ion-item *ngFor="let user of users$">
+        <ion-label>{{ user?.name }}</ion-label>
+        <ion-radio [value]="user?.id"></ion-radio>
+    </ion-item>
+  </ion-radio-group> 
+</ion-list>
+
+<div id="dropdown" class="z-10 hidden bg-white divide-y divide-gray-100 rounded-lg shadow w-44 dark:bg-gray-700">
+    <ul class="py-2 text-sm text-gray-700 dark:text-gray-200" aria-labelledby="dropdownDefaultButton">
+      <li *ngFor="let user of users$">
+        <p  class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">
+          {{ user?.name }}</p>
+      </li>      
+    </ul>
+</div>
+
+        
+      </ion-content>
+    </ng-template>
+  </ion-modal>
+</ion-content>

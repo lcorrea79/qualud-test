@@ -108,7 +108,6 @@ export type CreatePostMutation = { __typename?: 'Mutation', createPost: { __type
 
 
 
-
 export const CreatePostDocument = gql`
     mutation CreatePost($input: createPostInput!) {
       createPost(input: $input) {
@@ -163,6 +162,7 @@ constructor(apollo: Apollo.Apollo) {
 }
 
 
+
 /* New Comment*/
 
 export const CommentPayloadInfoFragmentDoc = gql`
@@ -180,9 +180,6 @@ export const CommentPayloadInfoFragmentDoc = gql`
 `;
 
 export type CreateCommentMutation = { __typename?: 'Mutation', createComment: { __typename?: 'createCommentPayload', clientMutationId?: string, comment: Comment | undefined } };
-
-
-
 
 export const CreateCommentDocument = gql`
     mutation CreateComment($input: createCommentInput!) {
@@ -202,9 +199,8 @@ export const CreateCommentDocument = gql`
       super(apollo);
     }
   }
-  
 
-  /* Delete Post*/
+  /* Delete Comment*/
 
 export const DeleteCommentPayloadInfoFragmentDoc = gql`
 fragment DeleteCommentPayloadInfo on deleteCommentPayload {      

@@ -9,9 +9,14 @@ import { Component, OnInit, Input } from '@angular/core';
 export class UserCardComponent  implements OnInit {
 
   @Input() userInfo! : User;
+  imgAvatar: string = "/assets/imgs/male.jpg"
 
-  constructor() { }
+  constructor() { 
+    
+  }
 
-  ngOnInit() {}
+  async ngOnInit() {
+    this.imgAvatar = await "/assets/imgs/" + this.userInfo?.gender + ".jpg";
+  }
 
 }

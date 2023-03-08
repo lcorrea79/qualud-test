@@ -1,4 +1,4 @@
-<ion-card>
+<!--<ion-card>
   <ion-card-header>
     <ion-card-title> {{ userInfo?.name }}</ion-card-title>
     <ion-card-subtitle>{{ userInfo?.email }}</ion-card-subtitle>
@@ -6,4 +6,24 @@
   <ion-card-content>
     Cantidad de POST {{ userInfo?.posts?.nodes?.length }}
   </ion-card-content>
-</ion-card>
+</ion-card>-->
+
+<div class="flex items-center space-x-4 px-5">
+  <div class="flex-shrink-0">
+    <ion-avatar slot="start" >
+      <img alt="Silhouette of a person's head" [src]="imgAvatar" />
+    </ion-avatar>
+  </div>
+  <div class="flex-1 min-w-0">
+      <p class="text-lg font-medium text-gray-900 truncate dark:text-white">
+        {{ userInfo?.name }}
+      </p>
+      <p class="text-sm text-gray-500 truncate dark:text-gray-400">
+        {{ userInfo?.email }}
+      </p>
+  </div>
+  <div class="inline-flex items-center col-span-3  text-lg font-semibold text-gray-900 dark:text-white">
+    <p class="text-2xl block space-x-8">{{ userInfo?.posts?.nodes?.length }}</p>
+       <p class="text-xs"> Posts</p> 
+  </div>
+</div>

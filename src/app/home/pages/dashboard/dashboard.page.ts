@@ -1,4 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Model } from './../../../shared/models/model';
+import { Component, NgZone, OnDestroy, OnInit } from '@angular/core';
+import { PluginListenerHandle } from '@capacitor/core';
+import { Network } from '@capacitor/network';
 
 @Component({
   selector: 'app-dashboard',
@@ -7,10 +10,16 @@ import { Component, OnInit } from '@angular/core';
 })
 export class DashboardPage implements OnInit {
 
+  
   constructor() { }
 
-  ngOnInit() {
-  
+  async ngOnInit() {
+    
+    
   }
+
+  
+  
+  
 
 }

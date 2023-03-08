@@ -1,9 +1,5 @@
-<ion-header>
-  <ion-toolbar>
-    <ion-title>todo-create</ion-title>
-  </ion-toolbar>
-</ion-header>
+<app-header title="Create ToDo"></app-header>
 
 <ion-content>
-
+<app-todo-form (createTodo)="createTodo($event)"></app-todo-form>
 </ion-content>

@@ -47,13 +47,23 @@ export class PostListPage implements OnInit,  ViewWillEnter {
     if ($event > 0)
      this.postService.deletePost({ clientMutationId:"xrv", id: $event}).subscribe(
       data => {
-        this.loadData();
+        this.posts$ = this.posts$?.filter(f => f.id != $event );
       }
      );
-     
+
+         
   }
 
-  
+  deleteComment($event: number, post_id: number | undefined){
+    console.log("deletePost", $event);
+    if ($event > 0)
+     this.postService.deleteComment({ clientMutationId:"xrv", id: $event}).subscribe(
+      data => {
+
+        //this.posts$?.filter(p => p.id == post_id)[0].comments.nodes?.filter(c => c?.id != $event);
+      }
+     );
+    }
 
 
 }

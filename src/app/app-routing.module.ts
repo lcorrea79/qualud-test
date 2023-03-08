@@ -21,6 +21,10 @@ const routes: Routes = [
   {
     path: 'dashboard',
     loadChildren: () => import('./home/home.module').then( m => m.HomeModule)
+  },
+  {
+    path: 'no-connection',
+    loadChildren: () => import('./shared/shared.module').then( m => m.SharedModule)
   }
 ];
 

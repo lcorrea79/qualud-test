@@ -1,15 +1,21 @@
 <app-header title="Todo List"></app-header>
 
 <ion-content>
+    
     <div class="wrapper-grid">
         <!-- movies persisted on the backend -->
         <div class="wrapper-movie">
-          
-          <ion-button (click)="createTodo()">New Todo</ion-button>
+          <div class="w-full text-right pr-5">
+          <ion-button [routerLink]="['create']" class="text-white text-bold"><ion-icon name="create-outline"></ion-icon>New Todo</ion-button>
+        </div>
+        
             <app-todo-card
                 *ngFor="let todo of todos$"
-                [todoInfo]="todo"                
+                [todoInfo]="todo" 
+                (onDeleted)="deleteTodo($event)" 
+                (onStatusChange)="updateTodo($event)"              
             ></app-todo-card>
+        
         </div>
         </div>
 </ion-content>

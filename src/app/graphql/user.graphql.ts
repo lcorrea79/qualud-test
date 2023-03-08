@@ -31,7 +31,7 @@ totalCount: number
 export const UserConnectionInfoFragmentDoc = gql`
     fragment UserConnectionInfo on userConnection {
       edges { cursor }   
-      nodes { id name email posts { nodes { title body } } }   
+      nodes { id name email gender posts { nodes { title body } } }   
       pageInfo { endCursor hasNextPage hasPreviousPage startCursor}
       totalCount
 }    

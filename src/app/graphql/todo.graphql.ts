@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { gql } from 'apollo-angular';
 import * as Apollo from 'apollo-angular';
-import { Maybe, PageInfo, Scalars, UserEdge, User, UserConnection, QueryCommentArgs, QueryUserArgs, Post, QueryPostArgs, CreatePostInput, MutationCreatePostArgs, Todo, MutationCreateTodoArgs, MutationDeleteTodoArgs } from './generated';
+import { Maybe, PageInfo, Scalars, UserEdge, User, UserConnection, QueryCommentArgs, QueryUserArgs, Post, QueryPostArgs, CreatePostInput, MutationCreatePostArgs, Todo, MutationCreateTodoArgs, MutationDeleteTodoArgs, MutationUpdateTodoArgs } from './generated';
 
 export type TodoConnectionFragment = { __typename?: 'todoConnection', 
 /** A list of edges. */
@@ -75,9 +75,6 @@ export const TodoPayloadInfoFragmentDoc = gql`
 
 export type CreateTodoMutation = { __typename?: 'Mutation', createTodo: { __typename?: 'createTodoPayload', clientMutationId?: string, todo: Todo | undefined } };
 
-
-
-
 export const CreateTodoDocument = gql`
     mutation CreateTodo($todoInputCreate: createTodoInput!) {
       createTodo(input: $todoInputCreate) {
@@ -97,6 +94,45 @@ export const CreateTodoDocument = gql`
     }
   }
   
+  /* Update ToDo*/
+
+
+export const UpdateTodoPayloadInfoFragmentDoc = gql`
+fragment UpdateTodoPayloadInfo on updateTodoPayload {      
+  clientMutationId
+  todo { dueOn             
+         id
+         status
+         title
+         user { id name email }
+         }
+}    
+`;
+
+export type UpdateTodoMutation = { __typename?: 'Mutation', updateTodo: { __typename?: 'updateTodoPayload', clientMutationId?: string, todo: Todo | undefined } };
+
+
+
+
+export const UpdateTodoDocument = gql`
+mutation UpdateTodo($todoInputUpdate: updateTodoInput!) {
+  updateTodo(input: $todoInputUpdate) {
+...UpdateTodoPayloadInfo
+}
+} ${UpdateTodoPayloadInfoFragmentDoc}`;
+
+@Injectable({
+providedIn: 'root'
+})
+export class UpdateTodoGQL extends Apollo.Mutation<UpdateTodoMutation, MutationUpdateTodoArgs> {
+
+override document = CreateTodoDocument;
+
+constructor(apollo: Apollo.Apollo) {
+  super(apollo);
+}
+}
+
   /* Delete Todo*/
 
 export const DeleteTodoPayloadInfoFragmentDoc = gql`
