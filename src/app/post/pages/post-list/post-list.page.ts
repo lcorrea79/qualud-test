@@ -4,9 +4,10 @@ import { Comment, CreatePostInput, PageInfo, Query } from './../../../graphql/ge
 import { PostService } from './../../services/post.service';
 import { Component, OnInit } from '@angular/core';
 import { Post } from 'src/app/graphql/generated';
-import {  ViewWillEnter } from '@ionic/angular';
+import {  ToastController, ViewWillEnter } from '@ionic/angular';
 import { InfiniteScrollCustomEvent } from '@ionic/angular';
 import { Observable } from 'rxjs';
+import { AuthService } from 'src/app/core/services/auth.service';
 
 
 
@@ -30,8 +31,11 @@ export class PostListPage implements OnInit, ViewWillEnter {
 
   user_id: number = 0;
 
-  constructor(private postService: PostService) {
-    this.user_id = Number(localStorage.getItem("user_id"));
+  constructor(private postService: PostService,
+              public auth: AuthService,
+              private toastController: ToastController
+    ) {
+    
   }
 
   ngOnInit() {
@@ -99,6 +103,15 @@ export class PostListPage implements OnInit, ViewWillEnter {
     this.loadData();
   }
 
+  async presentToast(text: string, position: 'top' | 'middle' | 'bottom') {
+    const toast = await this.toastController.create({
+      message: text,
+      duration: 1500,
+      position: position
+    });
+
+    await toast.present();
+  }
 
   deletePost($event: number) {
     
@@ -139,6 +152,10 @@ export class PostListPage implements OnInit, ViewWillEnter {
           );
 
           //this.posts$?.filter(p => p.id == post_id)[0].comments.nodes?.filter(c => c?.id != $event);
+        }, error => {
+         // this.spinner = false;
+          this.presentToast("An unexpected error has occurred, please try again later.", 'bottom');
+          console.log(error);
         }
       );
   }

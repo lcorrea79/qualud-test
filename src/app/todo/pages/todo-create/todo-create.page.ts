@@ -1,7 +1,10 @@
+import { AuthService } from './../../../core/services/auth.service';
 import { TodoService } from './../../services/todo.service';
 import { Component, OnInit } from '@angular/core';
-import { CreateTodoInput } from 'src/app/graphql/generated';
+
 import {  Router } from '@angular/router';
+import { ToastController } from '@ionic/angular';
+
 
 @Component({
   selector: 'app-todo-create',
@@ -10,24 +13,42 @@ import {  Router } from '@angular/router';
 })
 export class TodoCreatePage implements OnInit {
 
+  spinner: boolean = false;
   constructor(private todoService: TodoService,
-              private router: Router ) { }
+              private router: Router,
+              private auth: AuthService,
+              private toastController: ToastController ) { }
 
   ngOnInit() {
   }
 
+  async presentToast(text: string, position: 'top' | 'middle' | 'bottom') {
+    const toast = await this.toastController.create({
+      message: text,
+      duration: 1500,
+      position: position
+    });
+
+    await toast.present();
+  }
+
   createTodo($event: any){
-    $event.userId = Number(localStorage.getItem("user_id"));
+    $event.userId = this.auth.currentUserValue.id;
     $event.clientMutationId = "abc1";
     
-    
+     this.spinner = true;
      this.todoService.createTodo( $event ).subscribe(
-      data => {
-        
+      data => {        
+        this.spinner = false
+        ;
         this.router.navigate(['/todo'])
           .then(() => {
             window.location.reload();
           });
+      }, error => {
+        this.spinner = false;
+        this.presentToast("An unexpected error has occurred, please try again later.", 'bottom');
+        
       }
      )
   }

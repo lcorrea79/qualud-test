@@ -21,21 +21,21 @@
             class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full pl-10 p-2.5  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
             placeholder="Search by author">
         </div>
-        <ion-button [disabled]="user_id == 0" routerLink="create" class="text-white text-bold"><ion-icon name="create-outline"></ion-icon>New
+        <ion-button  routerLink="create" [disabled] ="!auth.isLoggedIn()" class="text-white text-bold"><ion-icon name="create-outline"></ion-icon>New
           Post</ion-button>
         </div>
      
       <ion-item *ngFor="let post of (posts | async) | filterAuthor:search">
         <div class="w-11/12">
-          <app-post-card [postInfo]="post" [canDelete]="post.userId == user_id"
+          <app-post-card [postInfo]="post" [canDelete]="post.userId == auth.currentUserValue?.id"
             (onDeleted)="deletePost($event)"></app-post-card>
 
-          <div class="w-full" *ngIf="user_id == post?.user?.id">
+          <div class="w-full" *ngIf="auth.currentUserValue?.id == post?.user?.id">
             <p class="text-s pl-2 font-bold" *ngIf="post.comments?.nodes?.length">Comments</p>
             <div class="pl-2" *ngFor="let comment of post.comments?.nodes">
               <ion-item>
                 <div class="w-full">
-                  <app-comment-card [canDelete]="user_id == post?.user?.id" [commentInfo]="comment"
+                  <app-comment-card [canDelete]="post.userId == auth.currentUserValue.id" [commentInfo]="comment"
                     (onDeleted)="deleteComment($event,post?.id)"></app-comment-card>
                 </div>
               </ion-item>
@@ -46,6 +46,9 @@
         </div>
       </ion-item>
     </div>
+    <div class="spin" >
+    <ion-spinner name="lines" color="primary"></ion-spinner>
+  </div>
     <ion-infinite-scroll (ionInfinite)="onIonInfinite($event)">
       <ion-infinite-scroll-content></ion-infinite-scroll-content>
     </ion-infinite-scroll>

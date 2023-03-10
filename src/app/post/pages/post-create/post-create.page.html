@@ -2,5 +2,5 @@
   </app-header>
 
 <ion-content>
-<app-post-form (createPost)="createPost($event)"></app-post-form>
+<app-post-form [spinner]="spinner" (createPost)="createPost($event)"></app-post-form>
 </ion-content>

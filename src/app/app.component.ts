@@ -1,3 +1,4 @@
+import { AuthService } from './core/services/auth.service';
 import { MenuController, Platform } from '@ionic/angular';
 import { Network } from '@capacitor/network';
 import { PluginListenerHandle } from '@capacitor/core';
@@ -27,7 +28,8 @@ export class AppComponent {
 
   constructor(private router: Router,
               private menuCtrl: MenuController,
-              private platform: Platform
+              private platform: Platform,
+              private auth: AuthService
     
     ) {
    
@@ -54,8 +56,7 @@ export class AppComponent {
 
 
 logout(){
-  localStorage.removeItem("user_id");
-  localStorage.removeItem("user_name");
+  this.auth.logout();
   window.location.reload();
   
 }

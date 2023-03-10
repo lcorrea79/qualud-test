@@ -1,6 +1,7 @@
 import { CreatePostInput } from './../../../graphql/generated';
-import { Component, OnInit, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit, Output, EventEmitter, Input } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+
 
 
 @Component({
@@ -11,7 +12,8 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 export class PostFormComponent  implements OnInit {
 
     @Output() createPost: EventEmitter<CreatePostInput> = new EventEmitter<CreatePostInput>();
-	
+	@Input() spinner: boolean = false;
+
 	protected readonly form: FormGroup = this.fb.nonNullable.group({
 		title: ['', [Validators.required]],
 		body: ['', [Validators.required]],

@@ -1,5 +1,5 @@
 <app-header title="Create ToDo"></app-header>
 
 <ion-content>
-<app-todo-form (createTodo)="createTodo($event)"></app-todo-form>
+<app-todo-form [spinner]="spinner" (createTodo)="createTodo($event)"></app-todo-form>
 </ion-content>

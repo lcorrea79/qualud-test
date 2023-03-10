@@ -1,4 +1,6 @@
-import { User, Query } from './../../../graphql/generated';
+import { User } from './../../../core/model/user';
+import { AuthService } from './../../../core/services/auth.service';
+import { Query } from './../../../graphql/generated';
 import { UserService } from './../../../user/services/user.service';
 import { map } from 'rxjs/operators';
 import { Component, Input, OnInit, ViewChild, Pipe } from '@angular/core';
@@ -20,10 +22,11 @@ export class HeaderComponent  implements OnInit {
   colorUser: string = "danger";
   
   constructor(public menuCtrl: MenuController,
-              private userService: UserService) { }
+              private userService: UserService,
+              private auth: AuthService) { }
 
   ngOnInit() {
-    this.currentUser = {id: Number(localStorage.getItem('id')), name: localStorage.getItem("user_name")!}
+    this.currentUser = this.auth.currentUserValue;;//{id: Number(localStorage.getItem('id')), name: localStorage.getItem("user_name")!}
     
     this.users$ = this.userService.getAllUsers().valueChanges.pipe(
       map((result:any) => {          
@@ -32,7 +35,7 @@ export class HeaderComponent  implements OnInit {
     );
 
    
-    this.colorUser = localStorage.getItem("user_id")=="0" || localStorage.getItem("user_id") == undefined?"danger":"primary";
+    this.colorUser = !this.auth.isLoggedIn()?"danger":"primary";
 
     
   }
@@ -52,8 +55,8 @@ export class HeaderComponent  implements OnInit {
   }
 
   setUser(isOpen: boolean) {   
-    localStorage.setItem("user_id", this.currentUser!.id.toString());
-    localStorage.setItem("user_name",this.currentUser!.name);
+         
+    this.auth.login({ id: this.currentUser!.id.toString(), name:this.currentUser!.name });
     this.isModalOpen = isOpen;
     this.colorUser = this.currentUser!.id==0?"danger":"primary";
     window.location.reload();

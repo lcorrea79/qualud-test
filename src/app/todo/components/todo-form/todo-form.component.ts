@@ -1,4 +1,4 @@
-import { Component, EventEmitter, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, OnInit, Output, Input } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { CreateTodoInput } from 'src/app/graphql/generated';
 
@@ -10,6 +10,8 @@ import { CreateTodoInput } from 'src/app/graphql/generated';
 export class TodoFormComponent  implements OnInit {
 
   @Output() createTodo: EventEmitter<CreateTodoInput> = new EventEmitter<CreateTodoInput>();
+  @Input() spinner :  boolean = false;
+
   protected readonly form: FormGroup = this.fb.nonNullable.group({
 		title: ['', [Validators.required]],
 		dueOn: [(new Date()).toISOString(), [Validators.required]],

@@ -6,7 +6,7 @@
         <!-- movies persisted on the backend -->
         <div class="wrapper-movie">
           <div class="w-full text-right pr-5">
-          <ion-button [routerLink]="['create']" [disabled]="user_id == 0" class="text-white text-bold"><ion-icon name="create-outline"></ion-icon>New Todo</ion-button>
+          <ion-button [routerLink]="['create']" [disabled] ="!auth.isLoggedIn()" class="text-white text-bold"><ion-icon name="create-outline"></ion-icon>New Todo</ion-button>
         </div>
         
             <app-todo-card
@@ -18,6 +18,9 @@
         
         </div>
         </div>
+        <div class="spin" >
+            <ion-spinner name="lines" color="primary"></ion-spinner>
+          </div>
         <ion-infinite-scroll (ionInfinite)="onIonInfinite($event)">
             <ion-infinite-scroll-content></ion-infinite-scroll-content>
           </ion-infinite-scroll>
