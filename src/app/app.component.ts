@@ -2,7 +2,7 @@ import { MenuController, Platform } from '@ionic/angular';
 import { Network } from '@capacitor/network';
 import { PluginListenerHandle } from '@capacitor/core';
 import { Router } from '@angular/router';
-import { Component } from '@angular/core';
+import { Component, OnDestroy } from '@angular/core';
 
 @Component({
   selector: 'app-root',
@@ -15,9 +15,6 @@ export class AppComponent {
     { title: 'Users', url: '/user-list', icon: 'people' },
     { title: 'Posts', url: '/post', icon: 'reader' },
     { title: 'ToDos', url: '/todo', icon: 'list' },
-   /* { title: 'Settings', url: '/folder/Archived', icon: 'archive' },
-    { title: 'Trash', url: '/folder/Trash', icon: 'trash' },
-    { title: 'Spam', url: '/folder/Spam', icon: 'warning' },*/
   ];
   public labels = [];
 
@@ -41,7 +38,7 @@ export class AppComponent {
 
   initializeApp() {
     this.networkListener = Network.addListener("networkStatusChange", (status) => {
-    console.log("Network status changed", status);
+   
    
     this.menuCtrl.enable(status.connected, 'primerMenu');
     if(status.connected == false){
@@ -51,6 +48,15 @@ export class AppComponent {
     }
   });
 
+
+  
+}
+
+
+logout(){
+  localStorage.removeItem("user_id");
+  localStorage.removeItem("user_name");
+  window.location.reload();
   
 }
 
@@ -59,6 +65,8 @@ cambio() {
   document.body.classList.toggle( 'dark' );    */
 }
 
-
+OnDestroy(){
+    this.logout();
+}
 
 }

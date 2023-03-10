@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { gql } from 'apollo-angular';
 import * as Apollo from 'apollo-angular';
-import { Maybe, PageInfo, Scalars, UserEdge, User, UserConnection, QueryCommentArgs, QueryUserArgs, Post, QueryPostArgs, CreatePostInput, MutationCreatePostArgs, Todo, MutationCreateTodoArgs, MutationDeleteTodoArgs, MutationUpdateTodoArgs } from './generated';
+import { Maybe, PageInfo, Scalars, UserEdge, User, UserConnection, QueryCommentArgs, QueryUserArgs, Post, QueryPostArgs, CreatePostInput, MutationCreatePostArgs, Todo, MutationCreateTodoArgs, MutationDeleteTodoArgs, MutationUpdateTodoArgs, QueryTodosArgs } from './generated';
 
 export type TodoConnectionFragment = { __typename?: 'todoConnection', 
 /** A list of edges. */
@@ -37,8 +37,8 @@ export const TodoConnectionInfoFragmentDoc = gql`
 `;
 
 export const TodoConnectionInfoFragmentDocument = gql`
-    query GetAllTodos {
-     todos {
+    query GetAllTodos($after: String, $before:String, $first:Int,$last:Int) {
+     todos(after:$after, before:$before,first:$first,last:$last) {
     ...TodoConnectionInfo
   }
 } ${TodoConnectionInfoFragmentDoc}   
@@ -48,7 +48,7 @@ export const TodoConnectionInfoFragmentDocument = gql`
 @Injectable({
     providedIn: 'root'
   })
-  export class GetAllTodosGQL extends Apollo.Query<GetAllTodosQuery> {
+  export class GetAllTodosGQL extends Apollo.Query<GetAllTodosQuery, QueryTodosArgs> {
     
     override document = TodoConnectionInfoFragmentDocument;
     

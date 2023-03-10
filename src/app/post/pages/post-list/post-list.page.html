@@ -2,37 +2,60 @@
 
 
 <ion-content class="w-full">
-    <ion-grid>
-        <ion-row>
-          <ion-col><ion-searchbar [(ngModel)]="search" placeholder="Search by Author" animated></ion-searchbar></ion-col>          
-        </ion-row>
-      </ion-grid>
-    <div class="w-full">        
-        <div class="w-full text-right pr-5">
-          <ion-button routerLink="create" class="text-white text-bold"><ion-icon name="create-outline"></ion-icon>New Post</ion-button>          
-          <ion-item *ngFor="let post of posts$ | filterAuthor:search">
-            <div  class="w-11/12">
-            <app-post-card                
-                [postInfo]="post"  
-                [canDelete]="post.userId == user_id"
-                (onDeleted) = "deletePost($event)"    
-            ></app-post-card>
-            
-            <div class="w-full" *ngIf="user_id == post?.user?.id">
-              <p class="text-s pl-2 font-bold">Comments</p>
-              <div class="pl-2" *ngFor="let comment of post.comments?.nodes">               
-                <app-comment-card                           
-                            [canDelete]="user_id == post?.user?.id"
-                            [commentInfo]="comment" 
-                            (onDeleted)="deleteComment($event,post?.id)"
-                           ></app-comment-card> 
-                       
-              </div> 
-                        </div>
-                    
+ 
+  
+    <div class="w-full text-right pr-5">
+      <div class="w-full">
+        <div class="flex">
+        
+        <div class="relative w-full px-3">
+          <div class="absolute inset-y-0 left-0 flex text-center items-center pl-5 pointer-events-none">
+            <svg aria-hidden="true" class="w-5 h-5 text-gray-500 dark:text-gray-400" fill="currentColor" viewBox="0 0 20 20"
+              xmlns="http://www.w3.org/2000/svg">
+              <path fill-rule="evenodd"
+                d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z"
+                clip-rule="evenodd"></path>
+            </svg>
           </div>
-        </ion-item>
-      
+          <input type="text" id="simple-search"  [(ngModel)]="search"
+            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full pl-10 p-2.5  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+            placeholder="Search by author">
         </div>
+        <ion-button [disabled]="user_id == 0" routerLink="create" class="text-white text-bold"><ion-icon name="create-outline"></ion-icon>New
+          Post</ion-button>
         </div>
+     
+      <ion-item *ngFor="let post of (posts | async) | filterAuthor:search">
+        <div class="w-11/12">
+          <app-post-card [postInfo]="post" [canDelete]="post.userId == user_id"
+            (onDeleted)="deletePost($event)"></app-post-card>
+
+          <div class="w-full" *ngIf="user_id == post?.user?.id">
+            <p class="text-s pl-2 font-bold" *ngIf="post.comments?.nodes?.length">Comments</p>
+            <div class="pl-2" *ngFor="let comment of post.comments?.nodes">
+              <ion-item>
+                <div class="w-full">
+                  <app-comment-card [canDelete]="user_id == post?.user?.id" [commentInfo]="comment"
+                    (onDeleted)="deleteComment($event,post?.id)"></app-comment-card>
+                </div>
+              </ion-item>
+            
+            </div>
+          </div>
+
+        </div>
+      </ion-item>
+    </div>
+    <ion-infinite-scroll (ionInfinite)="onIonInfinite($event)">
+      <ion-infinite-scroll-content></ion-infinite-scroll-content>
+    </ion-infinite-scroll>
+   <!--div class="text-center">
+    <ion-button *ngIf="hasMoreToLoad" (click)="loadMore()" class="text-white text-bold"><ion-icon name="create-outline"></ion-icon>Load More
+      Post</ion-button>
+    </div>-->
+    </div>
+
+
+
+
 </ion-content>

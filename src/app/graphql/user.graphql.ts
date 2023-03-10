@@ -2,7 +2,7 @@ import { IonicModule } from '@ionic/angular';
 import { Injectable } from '@angular/core';
 import { gql } from 'apollo-angular';
 import * as Apollo from 'apollo-angular';
-import { Maybe, PageInfo, Scalars, UserEdge, User, UserConnection, QueryCommentArgs, QueryUserArgs } from './generated';
+import { Maybe, PageInfo, Scalars, UserEdge, User, UserConnection, QueryCommentArgs, QueryUserArgs, QueryUsersArgs } from './generated';
 
 export type UserConnectionFragment = { __typename?: 'userConnection', 
 /** A list of edges. */
@@ -38,8 +38,8 @@ export const UserConnectionInfoFragmentDoc = gql`
 `;
 
 export const UserConnectionInfoFragmentDocument = gql`
-    query GetAllUsers {
-     users {
+    query GetAllUsers($after: String, $before:String, $first:Int,$last:Int) {
+     users(after:$after, before:$before,first:$first,last:$last) {
     ...UserConnectionInfo
   }
 } ${UserConnectionInfoFragmentDoc}   
@@ -49,7 +49,7 @@ export const UserConnectionInfoFragmentDocument = gql`
 @Injectable({
     providedIn: 'root'
   })
-  export class GetAllUsersGQL extends Apollo.Query<GetAllUsersQuery> {
+  export class GetAllUsersGQL extends Apollo.Query<GetAllUsersQuery,QueryUsersArgs> {
     
     override document = UserConnectionInfoFragmentDocument;
     

@@ -1,4 +1,4 @@
-<app-header title="Todo List"></app-header>
+<app-header title="ToDo List"></app-header>
 
 <ion-content>
     
@@ -6,16 +6,19 @@
         <!-- movies persisted on the backend -->
         <div class="wrapper-movie">
           <div class="w-full text-right pr-5">
-          <ion-button [routerLink]="['create']" class="text-white text-bold"><ion-icon name="create-outline"></ion-icon>New Todo</ion-button>
+          <ion-button [routerLink]="['create']" [disabled]="user_id == 0" class="text-white text-bold"><ion-icon name="create-outline"></ion-icon>New Todo</ion-button>
         </div>
         
             <app-todo-card
-                *ngFor="let todo of todos$"
+                *ngFor="let todo of (todos | async) ; let i = index"
                 [todoInfo]="todo" 
                 (onDeleted)="deleteTodo($event)" 
-                (onStatusChange)="updateTodo($event)"              
+                (onStatusChange)="updateTodo($event, i)"              
             ></app-todo-card>
         
         </div>
         </div>
+        <ion-infinite-scroll (ionInfinite)="onIonInfinite($event)">
+            <ion-infinite-scroll-content></ion-infinite-scroll-content>
+          </ion-infinite-scroll>
 </ion-content>

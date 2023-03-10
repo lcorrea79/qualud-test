@@ -15,7 +15,7 @@ export class NetworkService {
       }).pipe(map(a => true));
 
       Network.addListener("networkStatusChange", (status) => {
-        console.log("Network status changed", status);
+        
         this.online$ = Observable.create((observer:any) => {
           observer.next(true);
         }).pipe(map(x => status));

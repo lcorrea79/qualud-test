@@ -1,10 +1,12 @@
 <ion-item>
 <div class="w-full px-5">
   <div class="flex w-full p-2">
+    <div class="col-span-2">
+      <ion-checkbox slot="start" class="text-center" [checked]="todoInfo?.status == 'completed'" (ionChange)="updateStatus($event)">
+      </ion-checkbox> </div>
+         
     <ion-toolbar>
       
-       <!-- <ion-checkbox slot="start" class="text-center" [checked]="todoInfo?.status == 'completed'" (ionChange)="updateStatus($event)"></ion-checkbox>
-           -->
         <p class="text-emerald-700 text-left text-lg">{{ todoInfo?.title }}</p>
          
         <ion-icon  slot="end" class="delete-button text-red-600" (click)="presentAlert();" name="trash-outline"></ion-icon>
@@ -12,8 +14,8 @@
     </ion-toolbar>
       
     </div>
-  <div class="flex pb-2">
-    <div class="italic">By {{ todoInfo?.user?.name }}</div>
+  <div class="block pb-2">
+    <div class="pl-5 italic">By {{ todoInfo?.user?.name }}</div>
     <div class="pl-5 flex text-right">
       Due On: <p class="text-gray-800 font-bold">{{ todoInfo?.dueOn | date }}</p>
     </div>

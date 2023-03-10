@@ -18,8 +18,8 @@ export class UserService {
   constructor(private getUsersGQL: GetAllUsersGQL,
               private getUserByIdGQL: GetUserByIdGQL) { }
 
-  public getAllUsers(): Observable<UserConnectionFragment> {  
-    return this.getUsersGQL.watch().valueChanges.pipe(map((res) => res.data.users));
+  public getAllUsers(): any {  
+    return this.getUsersGQL.watch();
   }
 
   public getUserById({ id }: QueryUserArgs): Observable<UserInfoFragment> {  

@@ -1,24 +1,14 @@
 <app-header title="User List"></app-header>
 
 <ion-content>
-    <!--<div class="wrapper-grid">
-       
-        <div class="wrapper-movie">
-           
-            <app-user-card
-                *ngFor="let user of users$"
-                [userInfo]="user"                
-            ></app-user-card>
-        </div>
-        </div>-->
-        <div class="flow-root">
-            <ul role="list" class="divide-y divide-gray-200 dark:divide-gray-700">
-                <li class="py-3 sm:py-4" *ngFor="let user of users$">
-                    <app-user-card
-                
-                [userInfo]="user"                
-            ></app-user-card>
-                </li>
-            </ul>
-        </div>
+    <div class="flow-root">
+        <ul role="list" class="divide-y divide-gray-200 dark:divide-gray-700">
+            <li class="py-3 sm:py-4" *ngFor="let user of (users | async)">
+                <app-user-card [userInfo]="user"></app-user-card>
+            </li>
+        </ul>
+    </div>
+    <ion-infinite-scroll (ionInfinite)="onIonInfinite($event)">
+        <ion-infinite-scroll-content></ion-infinite-scroll-content>
+    </ion-infinite-scroll>
 </ion-content>

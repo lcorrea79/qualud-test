@@ -1,69 +1,147 @@
-import { CreatePostInput } from './../../../graphql/generated';
+import { map } from 'rxjs/operators';
+import { QueryRef } from 'apollo-angular';
+import { Comment, CreatePostInput, PageInfo, Query } from './../../../graphql/generated';
 import { PostService } from './../../services/post.service';
 import { Component, OnInit } from '@angular/core';
 import { Post } from 'src/app/graphql/generated';
-import { NumericValueAccessor, ViewDidEnter, ViewWillEnter } from '@ionic/angular';
+import {  ViewWillEnter } from '@ionic/angular';
+import { InfiniteScrollCustomEvent } from '@ionic/angular';
+import { Observable } from 'rxjs';
+
+
+
+const PER_PAGE = 10;
 
 @Component({
   selector: 'app-post-list',
   templateUrl: './post-list.page.html',
   styleUrls: ['./post-list.page.scss'],
 })
-export class PostListPage implements OnInit,  ViewWillEnter {
+export class PostListPage implements OnInit, ViewWillEnter {
 
-  posts$! : Post[] | undefined;
+
+
+  posts!: any;
+  postsRef$!: any;
+  hasMoreToLoad: boolean = false;
+  cursor: string | undefined= "";
 
   search: any = "";
 
   user_id: number = 0;
 
-  constructor(private postService: PostService) { 
-    this.user_id = Number( localStorage.getItem("user_id"));
+  constructor(private postService: PostService) {
+    this.user_id = Number(localStorage.getItem("user_id"));
   }
 
   ngOnInit() {
-    console.log("en el ngOnInit");
-    
+   this.loadData();
+
   }
 
 
-  loadData(){
-    this.postService.getAllPosts().subscribe(
-      data => {
-        this.posts$ = data.nodes;
-        console.log("loadData del post-list page", this.posts$);
-      }
+  loadData() {
+    this.postsRef$ = this.postService.getAllPosts();
+
+    this.posts = this.postsRef$.valueChanges.pipe(
+      map((result:any) => {  
+        
+        this.hasMoreToLoad = result.data.posts.pageInfo.hasNextPage;
+        this.cursor = result.data.posts.pageInfo.endCursor;
+        
+        return result.data.posts.nodes;
+      })
     );
+
+
   }
 
-  ionViewWillEnter(){
-    console.log("en el ionViewDidEnter");
+  
+
+  loadMore() {
+
+    this.postsRef$.fetchMore({
+      variables: { first: 20,
+        after: this.cursor},      
+      updateQuery: (previousResult: any, { fetchMoreResult } : {fetchMoreResult : any}) => {        
+        //if (!fetchMoreResult) return previousResult
+        
+        const newNodes = fetchMoreResult.posts.nodes;
+        const newEdges = fetchMoreResult.posts.edges;
+        const pageInfo = fetchMoreResult.posts.pageInfo;
+        
+        this.hasMoreToLoad = fetchMoreResult.posts.pageInfo.hasNextPage;
+       
+        
+        return { 
+          ...previousResult,
+          posts: {
+          edges:  [...previousResult.posts.edges, ...newEdges],
+          totalCount: previousResult.posts.totalCount,
+          nodes: [...previousResult.posts.nodes, ...newNodes],
+          pageInfo: pageInfo,
+          __typename: 'postConnection'                 
+        } 
+        }
+      }
+    });
+
+  } 
+  
+  onIonInfinite(ev: any) {
+    this.loadMore();
+    setTimeout(() => {
+      (ev as InfiniteScrollCustomEvent).target.complete();
+    }, 500);
+  }
+
+  ionViewWillEnter() {
     this.loadData();
   }
 
 
-  deletePost($event: number){
-    console.log("deletePost", $event);
+  deletePost($event: number) {
+    
     if ($event > 0)
-     this.postService.deletePost({ clientMutationId:"xrv", id: $event}).subscribe(
-      data => {
-        this.posts$ = this.posts$?.filter(f => f.id != $event );
-      }
-     );
+      this.postService.deletePost({ clientMutationId: "xrv", id: $event }).subscribe(
+        data => {
 
-         
+          
+          this.posts.subscribe(
+            (p:any) => {
+           
+              this.posts = Observable.create((observer:any) => {observer.next(p.filter((f:any) => f.id != $event ))})
+
+            }
+          );
+          
+        }
+      );
+
+
   }
 
-  deleteComment($event: number, post_id: number | undefined){
-    console.log("deletePost", $event);
+  deleteComment($event: number, post_id: number | undefined) {
+    
     if ($event > 0)
-     this.postService.deleteComment({ clientMutationId:"xrv", id: $event}).subscribe(
-      data => {
+      this.postService.deleteComment({ clientMutationId: "xrv", id: $event }).subscribe(
+        data => {
+          this.posts.subscribe(
+            (p:any) => {
+              
+              let index = p.findIndex( (i:any) => i.id == post_id);
+              let comments = p[index].comments.nodes;
+              let index_comment = comments.filter( (c:any) => {c.id == $event});
+              p[index].comments.nodes.splice( index_comment, 1);             
+              this.posts = Observable.create((observer:any) => {observer.next(p)});
 
-        //this.posts$?.filter(p => p.id == post_id)[0].comments.nodes?.filter(c => c?.id != $event);
-      }
-     );
-    }
+            }
+          );
+
+          //this.posts$?.filter(p => p.id == post_id)[0].comments.nodes?.filter(c => c?.id != $event);
+        }
+      );
+  }
 
 
 }

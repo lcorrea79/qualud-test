@@ -6,6 +6,8 @@ import { BehaviorSubject, Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { QueryPostArgs } from 'src/app/graphql/generated';
 import { FetchResult } from '@apollo/client/core';
+import { ObservableQuery } from '@apollo/client/core/ObservableQuery';
+import { QueryRef } from 'apollo-angular';
 
 
 
@@ -15,7 +17,7 @@ import { FetchResult } from '@apollo/client/core';
 export class PostService {
   
 
-  constructor(private getUsersGQL: GetAllPostsGQL,
+  constructor(private getPostsGQL: GetAllPostsGQL,
     private getPostByIdGQL: GetPostByIdGQL,
     private createPostGQL: CreatePostGQL,
     private deletePostGQL: DeletePostGQL,
@@ -23,8 +25,10 @@ export class PostService {
     private deleteCommentGQL: DeleteCommentGQL
   ) { }
 
-  public getAllPosts(): Observable<PostConnectionFragment> {
-    return this.getUsersGQL.watch().valueChanges.pipe(map((res) => res.data.posts));
+  public getAllPosts(): any {//Observable<PostConnectionFragment> {
+
+    return this.getPostsGQL.watch();
+    
   }
 
   public getPostById({ id }: QueryPostArgs): Observable<PostInfoFragment> {

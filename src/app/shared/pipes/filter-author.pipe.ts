@@ -6,7 +6,7 @@ import { Post } from 'src/app/graphql/generated';
 })
 export class FilterAuthorPipe implements PipeTransform {
 
-  transform(value: Post[] | undefined, searchText?: string): Post[] | undefined{
+  transform(value: Post[] | undefined | null, searchText?: string): Post[] | undefined | null{
     if (!searchText) {
       return value;
     } else {      

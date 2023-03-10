@@ -2,7 +2,7 @@
 import { Injectable } from '@angular/core';
 import { gql } from 'apollo-angular';
 import * as Apollo from 'apollo-angular';
-import { Maybe, PageInfo, Scalars, UserEdge, Post, QueryPostArgs, MutationCreatePostArgs, CreatePostInput, InputMaybe, MutationDeletePostArgs, MutationCreateCommentArgs, MutationDeleteCommentArgs } from './generated';
+import { Maybe, PageInfo, Scalars, UserEdge, Post, QueryPostArgs, MutationCreatePostArgs, CreatePostInput, InputMaybe, MutationDeletePostArgs, MutationCreateCommentArgs, MutationDeleteCommentArgs, QueryPostsArgs } from './generated';
 
 export type PostConnectionFragment = { __typename?: 'postConnection', 
 /** A list of edges. */
@@ -38,8 +38,8 @@ export const PostConnectionInfoFragmentDoc = gql`
 `;
 
 export const PostConnectionInfoFragmentDocument = gql`
-    query GetAllPosts {
-     posts {
+    query GetAllPosts($after: String, $before:String, $first:Int,$last:Int) {
+     posts(after:$after, before:$before,first:$first,last:$last) {
     ...PostConnectionInfo
   }
 } ${PostConnectionInfoFragmentDoc}   
@@ -49,7 +49,7 @@ export const PostConnectionInfoFragmentDocument = gql`
 @Injectable({
     providedIn: 'root'
   })
-  export class GetAllPostsGQL extends Apollo.Query<GetAllPostsQuery> {
+  export class GetAllPostsGQL extends Apollo.Query<GetAllPostsQuery,QueryPostsArgs> {
     
     override document = PostConnectionInfoFragmentDocument;
     

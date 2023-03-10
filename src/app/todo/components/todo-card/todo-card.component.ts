@@ -47,11 +47,11 @@ export class TodoCardComponent  implements OnInit {
   }
 
 updateStatus($event: any){
-  
+ 
   this.onStatusChange.emit({ id: this.todoInfo.id, 
                              dueOn: this.todoInfo.dueOn,
                              title: this.todoInfo.title,
-                             status: $event,
+                             status: $event.detail.checked?'completed':'pending',
                             });
 }
 

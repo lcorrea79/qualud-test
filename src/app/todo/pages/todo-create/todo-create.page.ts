@@ -16,15 +16,18 @@ export class TodoCreatePage implements OnInit {
   ngOnInit() {
   }
 
-  createTodo($event: CreateTodoInput){
+  createTodo($event: any){
     $event.userId = Number(localStorage.getItem("user_id"));
     $event.clientMutationId = "abc1";
-    console.log("Create Todo", $event);
+    
+    
      this.todoService.createTodo( $event ).subscribe(
       data => {
-        console.log("Info del Insert:", data);
-        this.router.navigate(['./todo']);
-        //this.nav.navigateBack(['/post'])
+        
+        this.router.navigate(['/todo'])
+          .then(() => {
+            window.location.reload();
+          });
       }
      )
   }

@@ -18,17 +18,20 @@ export class PostCreatePage implements OnInit {
   ngOnInit() {
   }
 
-  createPost($event: CreatePostInput){
-
+  createPost($event: CreatePostInput) {
+    alert("create POST");
     $event.userId = Number(localStorage.getItem("user_id"));
     $event.clientMutationId = "abc1";
-     this.postService.createPost( $event ).subscribe(
+    this.postService.createPost($event).subscribe(
       data => {
+        console.log("Create POST OK");
+        this.router.navigate(['/post'])
+          .then(() => {
+            window.location.reload();
+          });
         
-        this.router.navigate(['./post']);
-        //this.nav.navigateBack(['/post'])
       }
-     )
+    )
   }
   
 }

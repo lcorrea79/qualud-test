@@ -2,6 +2,6 @@
 <resources>
     <string name="app_name">qualud-test</string>
     <string name="title_activity_main">qualud-test</string>
-    <string name="package_name">io.ionic.starter</string>
-    <string name="custom_url_scheme">io.ionic.starter</string>
+    <string name="package_name">4lc.abc.com</string>
+    <string name="custom_url_scheme">4lc.abc.com</string>
 </resources>
