@@ -41,13 +41,20 @@ export class AppComponent {
   initializeApp() {
     this.networkListener = Network.addListener("networkStatusChange", (status) => {
    
-   
+    
+  
     this.menuCtrl.enable(status.connected, 'primerMenu');
+    
     if(status.connected == false){
+      
         this.router.navigate(["/no-connection"]);
     } else {
-        this.router.navigate(["/"]);
+        if (!this.isConnected)
+          this.router.navigate(["/"]);
+       this.isConnected = true;
     }
+
+    this.isConnected = status.connected;
   });
 
 

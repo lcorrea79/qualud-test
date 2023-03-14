@@ -1,7 +1,7 @@
 import { UpdateTodoInput } from './../../../graphql/generated';
 import { AlertController } from '@ionic/angular';
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-
+import { Haptics } from '@capacitor/haptics';
 import { Todo } from 'src/app/graphql/generated';
 
 @Component({
@@ -43,6 +43,7 @@ export class TodoCardComponent  implements OnInit {
       ],
     });
 
+    Haptics.vibrate();
     await alert.present();
   }
 

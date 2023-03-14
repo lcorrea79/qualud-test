@@ -1,7 +1,7 @@
 import { CapacitorConfig } from '@capacitor/cli';
 
 const config: CapacitorConfig = {
-  appId: '4lc.abc.com',
+  appId: 'lc.abc.com',
   appName: 'Qualud Test',
   webDir: 'www',
   bundledWebRuntime: false

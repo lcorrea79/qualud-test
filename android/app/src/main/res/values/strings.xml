@@ -1,7 +1,7 @@
 <?xml version='1.0' encoding='utf-8'?>
 <resources>
-    <string name="app_name">qualud-test</string>
-    <string name="title_activity_main">qualud-test</string>
-    <string name="package_name">4lc.abc.com</string>
-    <string name="custom_url_scheme">4lc.abc.com</string>
+    <string name="app_name">Qualud Test</string>
+    <string name="title_activity_main">Qualud Test</string>
+    <string name="package_name">lc.abc.com</string>
+    <string name="custom_url_scheme">lc.abc.com</string>
 </resources>
